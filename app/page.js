@@ -45,7 +45,7 @@ const content = {
     heroText:
       "Travel in comfort with our Tesla fleet, Mercedes van option and VIP chauffeur service. Fixed prices, professional chauffeurs and fast confirmation by WhatsApp.",
     bullets: [
-      "Brussels Airport from €30",
+      "Brussels Airport from €29",
       "Trusted by 800+ customers across Belgium",
       "Secure payment link sent after booking",
     ],
@@ -131,7 +131,7 @@ const content = {
     heroText:
       "Voyagez en confort avec notre flotte Tesla, option van Mercedes et service chauffeur VIP. Prix fixes, chauffeurs professionnels et confirmation rapide via WhatsApp.",
     bullets: [
-      "Aéroport de Bruxelles dès 30€",
+      "Aéroport de Bruxelles dès 29€",
       "Déjà 800+ clients nous font confiance",
       "Lien de paiement sécurisé après réservation",
     ],
@@ -213,11 +213,11 @@ const content = {
 
   nl: {
     nav: ["Diensten", "Vloot", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Premium Luchthaventransfers in Brussel & Heel België",
+    heroTitle: "Luchthaventransfers in Brussel & Heel België",
     heroText:
       "Reis comfortabel met onze Tesla-vloot, Mercedes van-optie en VIP-chauffeursservice. Vaste prijzen, professionele chauffeurs en snelle bevestiging via WhatsApp.",
     bullets: [
-      "Brussels Airport vanaf €30",
+      "Brussels Airport vanaf €29",
       "Vertrouwd door 800+ klanten in België",
       "Veilige betaallink na bevestiging van uw reservatie",
     ],
@@ -264,9 +264,9 @@ const content = {
     ],
     servicesTitle: "Onze Diensten",
     servicesSub:
-      "Aangepast aan luchthavenreizigers, zakelijke klanten, hotels, VIP-klanten en toeristen in België.",
+      "Aangepast aan reizigers, zakelijke klanten, hotels, VIP-klanten en toeristen in België.",
     services: [
-      ["Luchthaventransfers", "Brussels Airport, Charleroi en de belangrijkste transferroutes."],
+      ["Luchthaventransfers", "Brussels Airport, Charleroi en de belangrijkste transfers."],
       ["Stadsritten", "Snelle en comfortabele ritten overal in Brussel."],
       ["Lange afstand", "Reis door heel België met directe bevestiging."],
       ["Zakelijk vervoer", "Executive ritten, maandelijkse facturatie en prioritaire service."],

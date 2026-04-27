@@ -32,7 +32,7 @@ import {
 const PHONE = "+32490373903";
 const WHATSAPP = "32490373903";
 const EMAIL = "info@blackcab-shuttle.com";
-const COMPANY_NAME = "SCH Company SRL";
+const COMPANY_NAME = "BLC Company";
 const BRAND_NAME = "BlackCab Shuttle Brussels";
 const BASE_URL = "https://www.blackcab-shuttle.com";
 const INSTAGRAM_URL =
@@ -201,7 +201,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Brussels",
     legalDesc: "Premium taxi, shuttle and chauffeur service in Brussels, Belgium.",
     legalPlaceholder:
-      "Operated by SCH Company SRL. VAT number and registered office address can be added here before final publication.",
+      "",
     legalLinks: ["Privacy Policy", "Terms & Conditions", "Cookies Policy"],
     footerTagline: "Premium taxi and shuttle services in Brussels and across Belgium.",
     footerCols: [
@@ -355,7 +355,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Bruxelles",
     legalDesc: "Service premium de taxi, navette et chauffeur à Bruxelles, Belgique.",
     legalPlaceholder:
-      "Exploité par SCH Company SRL. Le numéro de TVA et l’adresse du siège social peuvent être ajoutés ici avant publication définitive.",
+      "",
     legalLinks: ["Politique de confidentialité", "Conditions générales", "Politique cookies"],
     footerTagline: "Services de taxi et navette premium à Bruxelles et dans toute la Belgique.",
     footerCols: [
@@ -509,7 +509,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Brussel",
     legalDesc: "Premium taxi-, shuttle- en chauffeursservice in Brussel, België.",
     legalPlaceholder:
-      "Uitgebaat door SCH Company SRL. Het btw-nummer en de maatschappelijke zetel kunnen hier vóór definitieve publicatie worden toegevoegd.",
+      "",
     legalLinks: ["Privacybeleid", "Algemene voorwaarden", "Cookiebeleid"],
     footerTagline: "Premium taxi- en shuttlediensten in Brussel en heel België.",
     footerCols: [

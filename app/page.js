@@ -32,7 +32,7 @@ import {
 const PHONE = "+32490373903";
 const WHATSAPP = "32490373903";
 const EMAIL = "info@blackcab-shuttle.com";
-const COMPANY_NAME = "BLC Company";
+const COMPANY_NAME = "SCH Company SRL";
 const BRAND_NAME = "BlackCab Shuttle Brussels";
 const BASE_URL = "https://www.blackcab-shuttle.com";
 const INSTAGRAM_URL =
@@ -89,6 +89,8 @@ const content = {
     googleReview: "4.7/5 from 800+ positive reviews",
     quote: "Request Your Quote",
     fastReply: "Fast reply guaranteed",
+    quickTitle: "Popular routes",
+    quickLocations: ["Brussels Airport", "Charleroi Airport", "Brussels Midi", "City Center"],
     pickup: "Pickup location",
     dropoff: "Drop-off location",
     date: "Date",
@@ -201,7 +203,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Brussels",
     legalDesc: "Premium taxi, shuttle and chauffeur service in Brussels, Belgium.",
     legalPlaceholder:
-      "",
+      "Operated by SCH Company SRL. VAT number and registered office address can be added here before final publication.",
     legalLinks: ["Privacy Policy", "Terms & Conditions", "Cookies Policy"],
     footerTagline: "Premium taxi and shuttle services in Brussels and across Belgium.",
     footerCols: [
@@ -243,6 +245,8 @@ const content = {
     googleReview: "4,7/5 d'après 800+ avis positifs",
     quote: "Demandez votre devis",
     fastReply: "Réponse rapide garantie",
+    quickTitle: "Trajets populaires",
+    quickLocations: ["Brussels Airport", "Charleroi Airport", "Bruxelles-Midi", "Centre-ville"],
     pickup: "Lieu de prise en charge",
     dropoff: "Lieu de destination",
     date: "Date",
@@ -355,7 +359,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Bruxelles",
     legalDesc: "Service premium de taxi, navette et chauffeur à Bruxelles, Belgique.",
     legalPlaceholder:
-      "",
+      "Exploité par SCH Company SRL. Le numéro de TVA et l’adresse du siège social peuvent être ajoutés ici avant publication définitive.",
     legalLinks: ["Politique de confidentialité", "Conditions générales", "Politique cookies"],
     footerTagline: "Services de taxi et navette premium à Bruxelles et dans toute la Belgique.",
     footerCols: [
@@ -397,6 +401,8 @@ const content = {
     googleReview: "4,7/5 op basis van 800+ positieve reviews",
     quote: "Vraag uw offerte aan",
     fastReply: "Snelle reactie gegarandeerd",
+    quickTitle: "Populaire routes",
+    quickLocations: ["Brussels Airport", "Charleroi Airport", "Brussel-Zuid", "Stadscentrum"],
     pickup: "Ophaallocatie",
     dropoff: "Bestemming",
     date: "Datum",
@@ -509,7 +515,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Brussel",
     legalDesc: "Premium taxi-, shuttle- en chauffeursservice in Brussel, België.",
     legalPlaceholder:
-      "",
+      "Uitgebaat door SCH Company SRL. Het btw-nummer en de maatschappelijke zetel kunnen hier vóór definitieve publicatie worden toegevoegd.",
     legalLinks: ["Privacybeleid", "Algemene voorwaarden", "Cookiebeleid"],
     footerTagline: "Premium taxi- en shuttlediensten in Brussel en heel België.",
     footerCols: [
@@ -825,6 +831,8 @@ Special request: ${specialRequest || "-"}`
     const errors = {};
     if (!pickup.trim()) errors.pickup = t.fieldRequired;
     if (!dropoff.trim()) errors.dropoff = t.fieldRequired;
+    if (!date) errors.date = t.fieldRequired;
+    if (!time) errors.time = t.fieldRequired;
     if (Object.keys(errors).length > 0) {
       e.preventDefault();
       setFormErrors(errors);
@@ -834,11 +842,23 @@ Special request: ${specialRequest || "-"}`
     trackConversion("whatsapp_quote_click");
   };
 
+  const handleQuickLocation = (location) => {
+    if (!pickup.trim()) {
+      setPickup(location);
+      return;
+    }
+    if (!dropoff.trim()) {
+      setDropoff(location);
+      return;
+    }
+    setDropoff(location);
+  };
+
   // ─────────────────────────────────────────────────────────────────────────
   // RENDER
   // ─────────────────────────────────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#030303] text-white">
+    <main className="min-h-screen bg-[#030303] pb-24 text-white md:pb-0">
       <JsonLd data={businessSchema} />
       <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-8">
 
@@ -949,11 +969,11 @@ Special request: ${specialRequest || "-"}`
                 ))}
               </div>
 
-              <h1 className="max-w-4xl text-5xl font-black leading-[1.02] tracking-tight md:text-7xl">
+              <h1 className="max-w-4xl text-4xl font-black leading-[1.03] tracking-tight md:text-7xl">
                 {t.heroTitle}
               </h1>
 
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/78">
+              <p className="mt-4 max-w-2xl text-base leading-7 text-white/78 md:mt-5 md:text-lg md:leading-8">
                 {t.heroText}
               </p>
 
@@ -990,13 +1010,31 @@ Special request: ${specialRequest || "-"}`
             </div>
 
             {/* Right column — Quote form */}
-            <div className="my-auto rounded-[28px] border border-[#6b5431] bg-[#111]/90 p-6 shadow-2xl backdrop-blur-md">
-              <div className="mb-6 flex items-center justify-between gap-4">
-                <h2 className="text-3xl font-black">{t.quote}</h2>
+            <div className="my-auto rounded-[28px] border border-[#6b5431] bg-[#111]/90 p-4 shadow-2xl backdrop-blur-md md:p-6">
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <h2 className="text-2xl font-black md:text-3xl">{t.quote}</h2>
                 <span className="text-xs font-bold text-[#d6a85c]">{t.fastReply}</span>
               </div>
 
-              <div className="grid gap-4">
+              <div className="mb-4 md:hidden">
+                <div className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-white/45">
+                  {t.quickTitle}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {t.quickLocations.map((location) => (
+                    <button
+                      key={location}
+                      type="button"
+                      onClick={() => handleQuickLocation(location)}
+                      className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-3 text-left text-xs font-bold text-white/80 transition hover:border-[#d6a85c]/60 hover:text-[#d6a85c]"
+                    >
+                      {location}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-3 md:gap-4">
                 <Input
                   label={t.pickup}
                   value={pickup}
@@ -1430,10 +1468,29 @@ Special request: ${specialRequest || "-"}`
         href={whatsappUrl}
         aria-label={t.whatsapp}
         onClick={() => trackConversion("floating_whatsapp_click")}
-        className="fixed bottom-5 right-5 z-[80] flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_20px_60px_rgba(37,211,102,0.45)] transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2"
+        className="fixed bottom-5 right-5 z-[80] hidden h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_20px_60px_rgba(37,211,102,0.45)] transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 md:flex"
       >
         <MessageCircle className="h-7 w-7" aria-hidden="true" />
       </a>
+
+      <div className="fixed inset-x-0 bottom-0 z-[90] grid grid-cols-2 border-t border-white/10 bg-black/95 p-2 shadow-[0_-20px_50px_rgba(0,0,0,0.55)] backdrop-blur-xl md:hidden">
+        <a
+          href={whatsappUrl}
+          onClick={() => trackConversion("mobile_sticky_whatsapp_click")}
+          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-4 py-3 text-sm font-black text-white"
+        >
+          <MessageCircle className="h-5 w-5" aria-hidden="true" />
+          WhatsApp
+        </a>
+        <a
+          href={`tel:${PHONE}`}
+          onClick={() => trackConversion("mobile_sticky_call_click")}
+          className="ml-2 inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-black text-black"
+        >
+          <Phone className="h-5 w-5" aria-hidden="true" />
+          {t.call}
+        </a>
+      </div>
     </main>
   );
 }

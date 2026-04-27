@@ -76,9 +76,9 @@ const businessSchema = {
 const content = {
   en: {
     nav: ["Services", "Fleet", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Premium Airport Transfers in Brussels & Across Belgium",
+    heroTitle: "Luxury Tesla Airport Transfers in Brussels & Across Belgium",
     heroText:
-      "Travel in comfort with our Tesla fleet, Mercedes van option and VIP chauffeur service. Fixed prices, professional chauffeurs and fast confirmation by WhatsApp.",
+      "Book a discreet premium ride with our Tesla fleet, Mercedes van option and VIP chauffeur service. Fixed prices, polished chauffeurs and fast confirmation by WhatsApp.",
     bullets: [
       "Brussels Airport from €29",
       "Trusted by 800+ customers across Belgium",
@@ -202,8 +202,7 @@ const content = {
     legalTitle: "Legal information",
     legalCompany: "BlackCab Shuttle Brussels",
     legalDesc: "Premium taxi, shuttle and chauffeur service in Brussels, Belgium.",
-    legalPlaceholder:
-      "Operated by SCH Company SRL. VAT number and registered office address can be added here before final publication.",
+    legalPlaceholder: "",
     legalLinks: ["Privacy Policy", "Terms & Conditions", "Cookies Policy"],
     footerTagline: "Premium taxi and shuttle services in Brussels and across Belgium.",
     footerCols: [
@@ -232,9 +231,9 @@ const content = {
 
   fr: {
     nav: ["Services", "Flotte", "Avis", "FAQ", "Contact"],
-    heroTitle: "Transferts Aéroport Premium à Bruxelles & Partout en Belgique",
+    heroTitle: "Transferts Aéroport de Luxe à Bruxelles & Partout en Belgique",
     heroText:
-      "Voyagez en confort avec notre flotte Tesla, option van Mercedes et service chauffeur VIP. Prix fixes, chauffeurs professionnels et confirmation rapide via WhatsApp.",
+      "Réservez un trajet premium et discret avec notre flotte Tesla, option van Mercedes et service chauffeur VIP. Prix fixes, chauffeurs soignés et confirmation rapide via WhatsApp.",
     bullets: [
       "Aéroport de Bruxelles dès 29€",
       "Déjà 800+ clients nous font confiance",
@@ -358,8 +357,7 @@ const content = {
     legalTitle: "Mentions légales",
     legalCompany: "BlackCab Shuttle Bruxelles",
     legalDesc: "Service premium de taxi, navette et chauffeur à Bruxelles, Belgique.",
-    legalPlaceholder:
-      "Exploité par SCH Company SRL. Le numéro de TVA et l’adresse du siège social peuvent être ajoutés ici avant publication définitive.",
+    legalPlaceholder: "",
     legalLinks: ["Politique de confidentialité", "Conditions générales", "Politique cookies"],
     footerTagline: "Services de taxi et navette premium à Bruxelles et dans toute la Belgique.",
     footerCols: [
@@ -388,9 +386,9 @@ const content = {
 
   nl: {
     nav: ["Diensten", "Vloot", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Premium Luchthaventransfers in Brussel & Heel België",
+    heroTitle: "Luxe Tesla Luchthaventransfers in Brussel & Heel België",
     heroText:
-      "Reis comfortabel met onze Tesla-vloot, Mercedes van-optie en VIP-chauffeursservice. Vaste prijzen, professionele chauffeurs en snelle bevestiging via WhatsApp.",
+      "Boek een discrete premium rit met onze Tesla-vloot, Mercedes van-optie en VIP-chauffeursservice. Vaste prijzen, verzorgde chauffeurs en snelle bevestiging via WhatsApp.",
     bullets: [
       "Brussels Airport vanaf €29",
       "Vertrouwd door 800+ klanten in België",
@@ -514,8 +512,7 @@ const content = {
     legalTitle: "Juridische informatie",
     legalCompany: "BlackCab Shuttle Brussel",
     legalDesc: "Premium taxi-, shuttle- en chauffeursservice in Brussel, België.",
-    legalPlaceholder:
-      "Uitgebaat door SCH Company SRL. Het btw-nummer en de maatschappelijke zetel kunnen hier vóór definitieve publicatie worden toegevoegd.",
+    legalPlaceholder: "",
     legalLinks: ["Privacybeleid", "Algemene voorwaarden", "Cookiebeleid"],
     footerTagline: "Premium taxi- en shuttlediensten in Brussel en heel België.",
     footerCols: [
@@ -643,6 +640,21 @@ function Input({ label, value, setValue, placeholder = "", icon, type = "text", 
   );
 }
 
+function TextareaInput({ label, value, setValue, placeholder = "" }) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-bold text-white/75">{label}</span>
+      <textarea
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder={placeholder}
+        rows={3}
+        className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-white outline-none placeholder:text-white/35 focus:border-[#d6a85c]"
+      />
+    </label>
+  );
+}
+
 function SelectInput({ label, value, setValue, options, ariaLabel }) {
   return (
     <label className="block">
@@ -665,7 +677,7 @@ function SelectInput({ label, value, setValue, options, ariaLabel }) {
 
 function Card({ children }) {
   return (
-    <div className="rounded-[24px] border border-white/10 bg-[#0d0d0d] p-5 shadow-2xl transition duration-300 hover:-translate-y-1 hover:border-[#d6a85c]/40 hover:bg-[#111111]">
+    <div className="rounded-[26px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] p-5 shadow-[0_18px_60px_rgba(0,0,0,0.45)] transition duration-300 hover:-translate-y-1 hover:border-[#d6a85c]/45 hover:bg-[#111111]">
       {children}
     </div>
   );
@@ -858,12 +870,12 @@ Special request: ${specialRequest || "-"}`
   // RENDER
   // ─────────────────────────────────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#030303] pb-24 text-white md:pb-0">
+    <main className="min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top_left,rgba(214,168,92,0.14),transparent_34%),radial-gradient(circle_at_75%_10%,rgba(255,255,255,0.06),transparent_28%),#030303] pb-24 text-white md:pb-0">
       <JsonLd data={businessSchema} />
       <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-8">
 
         {/* ── HEADER ──────────────────────────────────────────────────────── */}
-        <header className="sticky top-3 z-50 mb-4 rounded-[24px] border border-white/10 bg-black/70 px-5 py-4 shadow-2xl backdrop-blur-xl">
+        <header className="sticky top-3 z-50 mb-4 rounded-[28px] border border-white/10 bg-black/75 px-5 py-4 shadow-[0_24px_80px_rgba(0,0,0,0.65)] backdrop-blur-2xl">
           <div className="flex items-center justify-between gap-4">
             <a href="#hero" className="leading-none">
               <div className="text-2xl font-black tracking-tight md:text-3xl">BLACKCAB</div>
@@ -942,7 +954,7 @@ Special request: ${specialRequest || "-"}`
         {/* ── HERO ────────────────────────────────────────────────────────── */}
         <section
           id="hero"
-          className="relative overflow-hidden rounded-[34px] border border-[#3b3022] bg-black shadow-2xl"
+          className="relative overflow-hidden rounded-[34px] border border-[#6b5431]/70 bg-black shadow-[0_40px_120px_rgba(0,0,0,0.72)]"
         >
           <Image
             src={images.hero}
@@ -953,9 +965,9 @@ Special request: ${specialRequest || "-"}`
             quality={90}
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.76)_42%,rgba(0,0,0,0.30)_100%)] backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.97)_0%,rgba(0,0,0,0.80)_44%,rgba(0,0,0,0.36)_100%)] backdrop-blur-[1px]" />
 
-          <div className="relative z-10 grid min-h-[760px] gap-8 p-5 md:p-10 xl:grid-cols-[1.1fr_0.75fr]">
+          <div className="relative z-10 grid min-h-[620px] gap-8 p-5 md:min-h-[760px] md:p-10 xl:grid-cols-[1.1fr_0.75fr]">
             {/* Left column */}
             <div className="flex flex-col justify-center">
               <div className="mb-6 flex flex-wrap gap-3">
@@ -969,7 +981,7 @@ Special request: ${specialRequest || "-"}`
                 ))}
               </div>
 
-              <h1 className="max-w-4xl text-4xl font-black leading-[1.03] tracking-tight md:text-7xl">
+              <h1 className="max-w-4xl text-4xl font-black leading-[1.02] tracking-tight md:text-7xl xl:text-8xl">
                 {t.heroTitle}
               </h1>
 
@@ -1010,10 +1022,10 @@ Special request: ${specialRequest || "-"}`
             </div>
 
             {/* Right column — Quote form */}
-            <div className="my-auto rounded-[28px] border border-[#6b5431] bg-[#111]/90 p-4 shadow-2xl backdrop-blur-md md:p-6">
+            <div className="my-auto rounded-[32px] border border-[#6b5431]/90 bg-[#0d0d0d]/92 p-4 shadow-[0_30px_90px_rgba(0,0,0,0.7)] backdrop-blur-xl md:p-6">
               <div className="mb-5 flex items-center justify-between gap-4">
                 <h2 className="text-2xl font-black md:text-3xl">{t.quote}</h2>
-                <span className="text-xs font-bold text-[#d6a85c]">{t.fastReply}</span>
+                <span className="rounded-full border border-[#d6a85c]/30 bg-[#d6a85c]/10 px-3 py-1 text-xs font-bold text-[#d6a85c]">{t.fastReply}</span>
               </div>
 
               <div className="mb-4 md:hidden">
@@ -1060,12 +1072,16 @@ Special request: ${specialRequest || "-"}`
                     value={date}
                     setValue={setDate}
                     type="date"
+                    required
+                    error={formErrors.date}
                   />
                   <Input
                     label={t.time}
                     value={time}
                     setValue={setTime}
                     type="time"
+                    required
+                    error={formErrors.time}
                   />
                 </div>
 
@@ -1123,7 +1139,7 @@ Special request: ${specialRequest || "-"}`
                   />
                 </div>
 
-                <Input
+                <TextareaInput
                   label={t.specialRequest}
                   value={specialRequest}
                   setValue={setSpecialRequest}
@@ -1415,15 +1431,11 @@ Special request: ${specialRequest || "-"}`
                   +32 490 37 39 03
                 </a>
               </p>
-              <div className="flex flex-wrap gap-3 pt-1">
+              <div className="flex flex-wrap gap-3 pt-1 text-white/45">
                 {t.legalLinks.map((link) => (
-                  <a
-                    key={link}
-                    href="#"
-                    className="text-white/50 hover:text-[#d6a85c] underline transition"
-                  >
+                  <span key={link} className="rounded-full border border-white/10 px-3 py-1">
                     {link}
-                  </a>
+                  </span>
                 ))}
               </div>
             </div>

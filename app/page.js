@@ -232,9 +232,9 @@ const content = {
 
   fr: {
     nav: ["Services", "Flotte", "Avis", "FAQ", "Contact"],
-    heroTitle: "Transferts Aéroport Premium à Bruxelles & Partout en Belgique",
+    heroTitle: "Transferts Aéroport à Bruxelles, Charleroi, Amsterdam et Paris",
     heroText:
-      "Voyagez en confort avec notre flotte Tesla, option van Mercedes et service chauffeur VIP. Prix fixes, chauffeurs professionnels et confirmation rapide via WhatsApp.",
+      "Voyagez en confort avec notre flotte Tesla 3, Y et Mercedes Van. Prix fixes, chauffeurs professionnels et confirmation rapide via WhatsApp ou téléphone.",
     bullets: [
       "Aéroport de Bruxelles dès 29€",
       "Déjà 800+ clients nous font confiance",

@@ -76,16 +76,16 @@ const businessSchema = {
 const content = {
   en: {
     nav: ["Services", "Fleet", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Premium Airport Transfers in Brussels & Across Belgium",
+    heroTitle: "Airport Transfers in Brussels",
     heroText:
-      "Travel in comfort with our Tesla fleet, Mercedes van option and VIP chauffeur service. Fixed prices, professional chauffeurs and fast confirmation by WhatsApp.",
+      "Travel in comfort with our Tesla fleet, Mercedes Van and VIP service. Fixed prices, fast confirmation by WhatsApp.",
     bullets: [
       "Brussels Airport from €29",
       "Trusted by 800+ customers across Belgium",
       "Secure payment link sent after booking",
     ],
     trustedBy:
-      "Trusted by executives, hotels, VIP clients and frequent airport travelers in Brussels.",
+      "Trusted by hotels, VIP clients and frequent airport travelers in Brussels.",
     googleReview: "4.7/5 from 800+ positive reviews",
     quote: "Request Your Quote",
     fastReply: "Fast reply guaranteed",
@@ -122,7 +122,7 @@ const content = {
     why: [
       ["Tesla Comfort", "Premium black Tesla vehicles for every transfer."],
       ["Fixed Prices", "Know your exact price before you book."],
-      ["Professional Drivers", "Licensed, multilingual and discreet chauffeurs."],
+      ["Professional Drivers", "Licensed, multilingual and discreet drivers."],
       ["Flight Monitoring", "We track your flight and adapt to any delay."],
       ["24/7 Service", "Available day and night, 365 days a year."],
       ["Door-to-Door", "Pickup and drop-off exactly where you need."],
@@ -155,35 +155,35 @@ const content = {
     fleet: [
       ["Tesla Premium", "1–4 passengers. Ideal for premium airport transfers."],
       ["Mercedes Vito Van", "Up to 8 passengers. Ideal for families, groups and extra luggage."],
-      ["VIP Business Service", "Premium chauffeur experience for executives, hotels and events."],
+      ["VIP Business Service", "Premium driver experience for corporates, hotels and events."],
     ],
     customerTrust: "Customer trust",
     customerTrustTitle: "Premium transfers with fast response and real local service.",
     customerTrustText:
-      "Direct WhatsApp communication, fixed prices, clean vehicles and professional chauffeurs.",
+      "Direct WhatsApp communication, fixed prices, clean vehicles and professional drivers.",
     reviewStats: ["800+ Reviews", "9,000+ Trips", "24/7 Support"],
     reviewsTitle: "Verified Customer Reviews",
     verifiedCustomer: "Verified Customer",
     reviews: [
-      ["Patrick D.", "Brussels", "Perfect service. Driver on time and very professional.", "March 2026"],
+      ["Patrick D.", "Bruxelles", "Perfect service. Driver on time and very professional.", "March 2026"],
       ["Sophie L.", "Waterloo", "Quick reply, easy booking and smooth airport transfer.", "March 2026"],
       ["Olivier M.", "Uccle", "Clean car, polite driver and excellent comfort.", "February 2026"],
       ["Bernard T.", "Woluwe-Saint-Pierre", "Serious service and clear communication.", "February 2026"],
     ],
     ctaTitle: "Ready to Ride?",
     ctaText:
-      "Book now and experience premium Tesla transfers, Mercedes van transport and VIP chauffeur service in Belgium.",
+      "Book now a premium Tesla transfers, Mercedes van transport and VIP chauffeur service in Belgium.",
     ctaCards: [
       ["Instant Booking", "Send your details and get confirmed in minutes."],
       ["Direct Confirmation", "Receive your booking confirmation on WhatsApp."],
       ["24/7 Support", "Our team is available around the clock for you."],
     ],
     paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Secure Online Payment"],
-    seoTitle: "Taxi Brussels, Airport Transfer & VIP Chauffeur Service",
+    seoTitle: "Taxi Brussels, Airport Transfer & VIP driver Service",
     seoTexts: [
       "BlackCab Shuttle Brussels provides premium taxi Brussels services, Brussels Airport transfers, Zaventem airport transfers, private chauffeur Brussels, Mercedes Vito van transport and VIP chauffeur service across Belgium.",
       "Book your taxi in Brussels easily via WhatsApp with fixed prices, professional drivers and fast confirmation. Whether you need an airport transfer, a city ride or a long-distance journey, BlackCab Shuttle guarantees comfort and reliability.",
-      "Our services include taxi Zaventem, airport shuttle Brussels, chauffeur privé Bruxelles, VIP chauffeur service and Mercedes van transport for groups and families.",
+      "Our services include airport Zaventem shuttle in Brussels, VIP chauffeur service and Mercedes Van transport for groups and families.",
     ],
     businessTag: "Business Accounts",
     businessText:
@@ -241,10 +241,10 @@ const content = {
       "Lien de paiement sécurisé après réservation",
     ],
     trustedBy:
-      "Choisi par des cadres, hôtels, clients VIP et voyageurs fréquents à Bruxelles.",
+      "Choisi par les professionnels, hôtels, clients voyageurs fréquents à Bruxelles.",
     googleReview: "4,7/5 d'après 800+ avis positifs",
     quote: "Demandez votre devis",
-    fastReply: "Réponse rapide garantie",
+    fastReply: "Réponse rapide",
     quickTitle: "Trajets populaires",
     quickLocations: ["Brussels Airport", "Charleroi Airport", "Bruxelles-Midi", "Centre-ville"],
     pickup: "Lieu de prise en charge",
@@ -276,16 +276,16 @@ const content = {
     whyText:
       "Nous combinons luxe, fiabilité et service premium pour clients privés et professionnels.",
     why: [
-      ["Confort Tesla", "Véhicules Tesla noirs premium pour chaque trajet."],
-      ["Prix fixes", "Connaissez votre prix exact avant de réserver."],
-      ["Chauffeurs professionnels", "Licenciés, multilingues et discrets."],
-      ["Suivi des vols", "Nous suivons votre vol et nous adaptons à tout retard."],
-      ["Service 24/7", "Disponible jour et nuit, 365 jours par an."],
-      ["Porte-à-porte", "Prise en charge et dépôt exactement où vous le souhaitez."],
+      ["Confort Tesla", "Véhicules Tesla pour chaque trajet."],
+      ["Prix fixes", " Tarif connu à l'avance sans surprise"],
+      ["Chauffeurs professionnels", "Licenciés, multilingues et à vôtre service."],
+      ["Suivi des vols", "Nous suivons votre vol et nous nous adaptons à tout retard."],
+      ["Service 24/7", "Disponible 24h/24, 7j/7."],
+      ["Porte-à-porte", "Prise en charge et dépose où vous le souhaitez."],
     ],
     howTitle: "Comment ça marche",
     how: [
-      ["Indiquez votre trajet", "Ajoutez départ, destination et détails du voyage."],
+      ["Indiquez votre trajet", "Renseignez votre lieu de départ, destination et détails du trajet."],
       ["Recevez votre devis", "Nous répondons vite avec un prix fixe tout compris."],
       ["Confirmez et détendez-vous", "Réservez via WhatsApp et recevez une confirmation immédiate."],
     ],
@@ -298,25 +298,25 @@ const content = {
     ],
     servicesTitle: "Nos Services",
     servicesSub:
-      "Pensés pour voyageurs aéroport, cadres, hôtels, clients VIP et touristes en Belgique.",
+      "Pensés pour voyageurs aéroport, les professionnels, hôtels, clients VIP et touristes en Belgique.",
     learnMore: "En savoir plus",
     services: [
-      ["Transferts Aéroport", "Brussels Airport, Charleroi et toutes les routes principales."],
-      ["Trajets urbains", "Déplacements rapides et confortables dans Bruxelles."],
-      ["Longue distance", "Voyagez à travers la Belgique avec confirmation directe."],
-      ["Business Travel", "Trajets exécutifs, facturation mensuelle et priorité pro."],
+      ["Transferts Aéroport", "Aéroport de Bruxelles, Charleroi, Paris, Amsterdam."],
+      ["Trajets urbains", "Déplacements rapides et confortables à Bruxelles."],
+      ["Longue distance", "Voyagez à travers la Belgique avec confirmation immédiate."],
+      ["Business Travel", "Trajets exécutifs, facturation mensuelle et service dédié."],
     ],
     fleetTitle: "Notre Flotte",
     fleetSub: "Choisissez le véhicule adapté à votre trajet.",
     fleet: [
-      ["Tesla Premium", "1–4 passagers. Idéal pour transferts aéroport premium."],
+      ["Tesla", "1–4 passagers. Idéal pour transferts aéroport."],
       ["Mercedes Vito Van", "Jusqu'à 8 passagers. Idéal pour familles, groupes et bagages."],
-      ["Service VIP Business", "Expérience chauffeur premium pour dirigeants, hôtels et événements."],
+      ["Service VIP Business", "Expérience chauffeur premium pour professionnels, hôtels et événements."],
     ],
     customerTrust: "Confiance client",
-    customerTrustTitle: "Transferts premium avec réponse rapide et service local authentique.",
+    customerTrustTitle: "Transferts premium avec réponse rapide et un service local fiable.",
     customerTrustText:
-      "Communication directe WhatsApp, prix fixes, véhicules propres et chauffeurs professionnels.",
+      "Info directe via WhatsApp, prix fixes, véhicules propres et chauffeurs professionnels.",
     reviewStats: ["800+ Avis", "9 000+ Courses", "Support 24/7"],
     reviewsTitle: "Avis clients vérifiés",
     verifiedCustomer: "Client vérifié",
@@ -328,18 +328,18 @@ const content = {
     ],
     ctaTitle: "Prêt à partir ?",
     ctaText:
-      "Réservez maintenant et profitez de transferts Tesla premium, transport van Mercedes et service chauffeur VIP en Belgique.",
+      "Réservez maintenant et profitez de transferts en Tesla premium, transport en Van Mercedes et un service professionnel.",
     ctaCards: [
-      ["Réservation instantanée", "Envoyez vos détails et soyez confirmé en quelques minutes."],
-      ["Confirmation directe", "Recevez la confirmation de votre réservation sur WhatsApp."],
+      ["Réservation instantanée", "Envoyez vos détails et recevez une confirmation en quelques minutes."],
+      ["Confirmation directe", "Recevez la confirmation de votre réservation sur WhatsApp ou par téléphone."],
       ["Support 24/7", "Notre équipe est disponible à toute heure pour vous."],
     ],
     paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Paiement sécurisé en ligne"],
     seoTitle: "Taxi Bruxelles, Transfert Aéroport & Service Chauffeur VIP",
     seoTexts: [
-      "BlackCab Shuttle Bruxelles propose des services de taxi premium à Bruxelles, transferts Brussels Airport, transferts Zaventem, chauffeur privé Bruxelles, transport van Mercedes Vito et service chauffeur VIP dans toute la Belgique.",
+      "BlackCab Shuttle Bruxelles propose des services de taxi premium à Bruxelles, transferts Aéroport de Bruxelles, Charleroi, Paris, Amsterdam, transport en Tesla et Van Mercedes Vito et service chauffeur privé dans toute la Belgique.",
       "Réservez votre taxi à Bruxelles facilement via WhatsApp avec des prix fixes, des chauffeurs professionnels et une confirmation rapide. Que vous ayez besoin d'un transfert aéroport, d'un trajet urbain ou d'un voyage longue distance, BlackCab Shuttle garantit confort et fiabilité.",
-      "Nos services incluent taxi Zaventem, navette aéroport Bruxelles, chauffeur privé Bruxelles, service chauffeur VIP et transport van Mercedes pour groupes et familles.",
+      "Nos services incluent Taxi Bruxelles Zaventem, navette aéroport Charleroi, Paris, Amsterdam, service chauffeur VIP et transport en Tesla et Van Mercedes pour groupes et familles.",
     ],
     businessTag: "Comptes Business",
     businessText:
@@ -352,14 +352,14 @@ const content = {
       ["Peut-on réserver pour business ?", "Oui, comptes business, facturation mensuelle et réservations prioritaires disponibles."],
     ],
     priorityTag: "Réservation prioritaire",
-    priorityTitle: "Besoin d'un chauffeur aujourd'hui ?",
+    priorityTitle: "Besoin d'un chauffeur ?",
     priorityText:
-      "Envoyez votre itinéraire sur WhatsApp et recevez un devis rapide avec le bon véhicule : Tesla, van Mercedes ou service chauffeur VIP.",
+      "Envoyez votre itinéraire sur WhatsApp et recevez un devis rapide avec le bon véhicule : Tesla, Van Mercedes ou service chauffeur VIP.",
     legalTitle: "Mentions légales",
     legalCompany: "BlackCab Shuttle Bruxelles",
-    legalDesc: "Service premium de taxi, navette et chauffeur à Bruxelles, Belgique.",
+    legalDesc: "Service premium de taxi, navette Aéroport Bruxelles, Belgique.",
     legalPlaceholder:
-      "Exploité par SCH Company SRL. Le numéro de TVA et l’adresse du siège social peuvent être ajoutés ici avant publication définitive.",
+      "Exploité par SCH Company SRL",
     legalLinks: ["Politique de confidentialité", "Conditions générales", "Politique cookies"],
     footerTagline: "Services de taxi et navette premium à Bruxelles et dans toute la Belgique.",
     footerCols: [
@@ -457,20 +457,20 @@ const content = {
       "Aangepast aan luchthavenreizigers, zakelijke klanten, hotels, VIP-klanten en toeristen in België.",
     learnMore: "Meer info",
     services: [
-      ["Luchthaventransfers", "Brussels Airport, Charleroi en alle belangrijke transferroutes."],
+      ["Luchthaventransfers", "Brussel, Bergen, Amsterdam, Parijs."],
       ["Stadsritten", "Snelle en comfortabele ritten overal in Brussel."],
       ["Lange afstand", "Reis door heel België met directe bevestiging."],
-      ["Zakelijk vervoer", "Executive ritten, maandelijkse facturatie en prioritaire service."],
+      ["Professionele vervoer", "Executive ritten, maandelijkse facturatie en prioritaire service."],
     ],
     fleetTitle: "Onze Vloot",
     fleetSub: "Kies het juiste voertuig voor uw rit.",
     fleet: [
       ["Tesla Premium", "1–4 passagiers. Ideaal voor premium luchthaventransfers."],
-      ["Mercedes Vito Van", "Tot 8 passagiers. Ideaal voor families, groepen en extra bagage."],
-      ["VIP Business Service", "Premium chauffeursbeleving voor directieleden, hotels en evenementen."],
+      ["Mercedes Vito Van", "Tot 8 passagiers. Ideaal voor families, groepen en extra bagages."],
+      ["VIP Business Service", "Premium chauffeursbeleving voor professionele klanten, hotels en evenementen."],
     ],
     customerTrust: "Klantvertrouwen",
-    customerTrustTitle: "Premium transfers met snelle respons en echte lokale service.",
+    customerTrustTitle: "Premium transfers met snelle anwoord en echte lokale service.",
     customerTrustText:
       "Directe WhatsApp-communicatie, vaste prijzen, schone voertuigen en professionele chauffeurs.",
     reviewStats: ["800+ Reviews", "9.000+ Ritten", "24/7 Support"],
@@ -484,7 +484,7 @@ const content = {
     ],
     ctaTitle: "Klaar om te vertrekken?",
     ctaText:
-      "Reserveer nu en ervaar premium Tesla-transfers, Mercedes van-vervoer en VIP-chauffeursservice in België.",
+      "Reserveer nu een premium Tesla-transfers, Mercedes Van en VIP-chauffeursservice in België.",
     ctaCards: [
       ["Directe boeking", "Stuur uw gegevens en ontvang bevestiging binnen enkele minuten."],
       ["Directe bevestiging", "Ontvang uw boekingsbevestiging via WhatsApp."],
@@ -493,9 +493,9 @@ const content = {
     paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Veilige online betaling"],
     seoTitle: "Taxi Brussel, Luchthaventransfer & VIP Chauffeursservice",
     seoTexts: [
-      "BlackCab Shuttle Brussel biedt premium taxidiensten in Brussel, Brussels Airport-transfers, Zaventem-transfers, privéchauffeur Brussel, Mercedes Vito van-vervoer en VIP-chauffeursservice door heel België.",
-      "Boek uw taxi in Brussel eenvoudig via WhatsApp met vaste prijzen, professionele chauffeurs en snelle bevestiging. Of u nu een luchthaventransfer, een stadsrit of een langeafstandsreis nodig heeft, BlackCab Shuttle garandeert comfort en betrouwbaarheid.",
-      "Onze diensten omvatten taxi Zaventem, luchthavenshuttle Brussel, privéchauffeur Brussel, VIP-chauffeursservice en Mercedes van-vervoer voor groepen en families.",
+      "BlackCab Shuttle Brussel biedt premium taxidiensten in Brussel, Bergen, Parijs, Amsterdam, Mercedes Vito van-vervoer en VIP-chauffeursservice door heel België ook.",
+      "Boek uw taxi in België eenvoudig via WhatsApp met vaste prijzen, professionele chauffeurs en snelle bevestiging. Of u nu een luchthaventransfer, een stadsrit of een lange afstand nodig heeft, BlackCab Shuttle garandeert comfort en betrouwbaarheid.",
+      "Onze diensten omvatten Taxi Zaventem, Luchthaven shuttle Brussel, privéchauffeur Brussel, VIP-chauffeursservice en Mercedes van-vervoer voor groepen en families.",
     ],
     businessTag: "Business Accounts",
     businessText:
@@ -505,7 +505,7 @@ const content = {
       ["Hoe reserveer ik?", "Stuur uw ritgegevens via WhatsApp en wij bevestigen snel beschikbaarheid en prijs."],
       ["Hoe snel antwoorden jullie?", "De meeste aanvragen krijgen een antwoord binnen 2 minuten."],
       ["Bieden jullie luchthaventransfers aan?", "Ja, van en naar Brussels Airport, Charleroi en andere Belgische bestemmingen."],
-      ["Kan ik zakelijk vervoer boeken?", "Ja, wij bieden business accounts, maandelijkse facturatie en prioritaire boekingen."],
+      ["Kan ik professionele vervoer boeken?", "Ja, wij bieden business accounts, maandelijkse facturatie en prioritaire boekingen."],
     ],
     priorityTag: "Prioritaire boeking",
     priorityTitle: "Vandaag een chauffeur nodig?",
@@ -515,13 +515,13 @@ const content = {
     legalCompany: "BlackCab Shuttle Brussel",
     legalDesc: "Premium taxi-, shuttle- en chauffeursservice in Brussel, België.",
     legalPlaceholder:
-      "Uitgebaat door SCH Company SRL. Het btw-nummer en de maatschappelijke zetel kunnen hier vóór definitieve publicatie worden toegevoegd.",
+      "Uitgebaat door SCH Company SRL",
     legalLinks: ["Privacybeleid", "Algemene voorwaarden", "Cookiebeleid"],
     footerTagline: "Premium taxi- en shuttlediensten in Brussel en heel België.",
     footerCols: [
       {
         title: "Diensten",
-        items: ["Luchthaventransfers", "Stadsritten", "Lange afstand", "Zakelijk vervoer"],
+        items: ["Luchthaventransfers", "Stadsritten", "Lange afstand", "Business vervoer"],
       },
       {
         title: "Bedrijf",

@@ -136,13 +136,13 @@ const content = {
     perfect: "Perfect for",
     perfectItems: [
       "Airport Travelers",
-      "Business Executives",
+      "Business Customers",
       "Hotels & VIP Clients",
       "Tourists Visiting Belgium",
     ],
     servicesTitle: "Our Services",
     servicesSub:
-      "Tailored to airport travelers, business executives, hotels, VIP clients and tourists visiting Belgium.",
+      "Tailored to airport travelers, business customers, hotels, VIP clients and tourists visiting Belgium.",
     learnMore: "Learn more",
     services: [
       ["Airport Transfers", "Brussels Airport, Charleroi and all major transfer routes."],
@@ -181,8 +181,8 @@ const content = {
     paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Secure Online Payment"],
     seoTitle: "Taxi Brussels, Airport Transfer & VIP driver Service",
     seoTexts: [
-      "BlackCab Shuttle Brussels provides premium taxi Brussels services, Brussels Airport transfers, Zaventem airport transfers, private chauffeur Brussels, Mercedes Vito van transport and VIP chauffeur service across Belgium.",
-      "Book your taxi in Brussels easily via WhatsApp with fixed prices, professional drivers and fast confirmation. Whether you need an airport transfer, a city ride or a long-distance journey, BlackCab Shuttle guarantees comfort and reliability.",
+      "BlackCab Shuttle Brussels provides premium taxi services, Brussels Airport transfers, Zaventem airport shuttle, private drivers, Mercedes Vito Van transport and VIP service across Belgium.",
+      "Book your taxi in Brussels easily via WhatsApp with fixed prices, professional drivers and fast confirmation. Whether you need an airport transfer, a city ride or a long-distance ride, BlackCab Shuttle guarantees comfort and reliability.",
       "Our services include airport Zaventem shuttle in Brussels, VIP chauffeur service and Mercedes Van transport for groups and families.",
     ],
     businessTag: "Business Accounts",
@@ -232,7 +232,7 @@ const content = {
 
   fr: {
     nav: ["Services", "Flotte", "Avis", "FAQ", "Contact"],
-    heroTitle: "Transferts Aéroport à Bruxelles, Charleroi, Amsterdam et Paris",
+    heroTitle: "Transferts Aéroport et Gares: Bruxelles, Charleroi, Amsterdam et Paris",
     heroText:
       "Voyagez en confort avec notre flotte Tesla 3, Y et Mercedes Van. Prix fixe, chauffeurs professionnels et confirmation rapide via WhatsApp ou téléphone.",
     bullets: [
@@ -291,14 +291,14 @@ const content = {
     ],
     perfect: "Idéal pour",
     perfectItems: [
-      "Voyageurs aéroport",
-      "Cadres & dirigeants",
+      "Voyageurs",
+      "Professionels",
       "Hôtels & clients VIP",
       "Touristes en Belgique",
     ],
     servicesTitle: "Nos Services",
     servicesSub:
-      "Pensés pour voyageurs aéroport, les professionnels, hôtels, clients VIP et touristes en Belgique.",
+      "Pensés pour voyageurs, professionnels, hôtels, clients VIP et touristes en Belgique.",
     learnMore: "En savoir plus",
     services: [
       ["Transferts Aéroport", "Aéroport de Bruxelles, Charleroi, Paris, Amsterdam."],

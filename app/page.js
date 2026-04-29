@@ -76,7 +76,7 @@ const businessSchema = {
 const content = {
   en: {
     nav: ["Services", "Fleet", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Airport Transfers in Brussels",
+    heroTitle: "Airport Shuttle in Brussels, Charleroi, Paris, Amsterdam",
     heroText:
       "Travel in comfort with our Tesla fleet, Mercedes Van and VIP service. Fixed prices, fast confirmation by WhatsApp.",
     bullets: [
@@ -234,7 +234,7 @@ const content = {
     nav: ["Services", "Flotte", "Avis", "FAQ", "Contact"],
     heroTitle: "Transferts Aéroport à Bruxelles, Charleroi, Amsterdam et Paris",
     heroText:
-      "Voyagez en confort avec notre flotte Tesla 3, Y et Mercedes Van. Prix fixes, chauffeurs professionnels et confirmation rapide via WhatsApp ou téléphone.",
+      "Voyagez en confort avec notre flotte Tesla 3, Y et Mercedes Van. Prix fixe, chauffeurs professionnels et confirmation rapide via WhatsApp ou téléphone.",
     bullets: [
       "Aéroport de Bruxelles dès 29€",
       "Déjà 800+ clients nous font confiance",

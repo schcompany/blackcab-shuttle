@@ -1,26 +1,32 @@
 export const metadata = {
   title: "Taxi Brussels | Premium Taxi Service 24/7 | BlackCab Shuttle",
   description:
-    "Book a taxi in Brussels with fixed prices. Airport transfers, city rides and VIP chauffeur service available 24/7. Fast WhatsApp booking.",
+    "Book a taxi in Brussels with fixed prices. Airport transfers, city rides and VIP chauffeur service available 24/7.",
 };
 
 export default function Page() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "TaxiService",
+    "@type": ["LocalBusiness", "TaxiService"],
     name: "BlackCab Shuttle Brussels",
-    areaServed: "Brussels",
+    url: "https://www.blackcab-shuttle.com/taxi-bruxelles",
     telephone: "+32490373903",
+    areaServed: "Brussels",
+    priceRange: "€€",
+    image: "https://www.blackcab-shuttle.com/images/1.jpg",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
       reviewCount: "800",
+      bestRating: "5",
+      worstRating: "1",
     },
   };
 
   return (
     <main className="min-h-screen bg-black px-6 py-16 text-white">
-
+      
+      {/* ✅ SCHEMA FIXÉ */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -31,7 +37,8 @@ export default function Page() {
       </h1>
 
       <p className="mt-6 max-w-3xl text-white/70 leading-8">
-        Looking for a reliable taxi in Brussels? BlackCab Shuttle offers premium taxi services with fixed prices, fast response and professional drivers available day and night.
+        Looking for a reliable taxi in Brussels? BlackCab Shuttle offers premium taxi
+        services with fixed prices, fast airport transfers and VIP chauffeur service.
       </p>
 
       <h2 className="mt-10 text-2xl font-bold">
@@ -39,7 +46,8 @@ export default function Page() {
       </h2>
 
       <p className="mt-4 text-white/70">
-        We provide high-end transportation across Brussels including airport transfers, city rides and VIP chauffeur services. Travel in comfort with Tesla vehicles and Mercedes vans.
+        We provide high-end transportation across Brussels including airport transfers,
+        city rides and VIP chauffeur services.
       </p>
 
       <h2 className="mt-10 text-2xl font-bold">
@@ -47,7 +55,8 @@ export default function Page() {
       </h2>
 
       <p className="mt-4 text-white/70">
-        We operate in Ixelles, Uccle, Etterbeek, Schaerbeek, Anderlecht, Woluwe-Saint-Pierre, Woluwe-Saint-Lambert and all Brussels districts.
+        We operate in Ixelles, Uccle, Etterbeek, Schaerbeek, Anderlecht,
+        Woluwe-Saint-Pierre, Woluwe-Saint-Lambert and all Brussels districts.
       </p>
 
       <h3 className="mt-10 text-xl font-bold">
@@ -63,14 +72,12 @@ export default function Page() {
       </ul>
 
       <div className="mt-10">
-        <a href="https://wa.me/32490373903" className="bg-[#d6a85c] px-6 py-3 rounded-full text-black font-bold">
+        <a
+          href="https://wa.me/32490373903"
+          className="bg-[#d6a85c] px-6 py-3 rounded-full text-black font-bold"
+        >
           Book your taxi now
         </a>
-      </div>
-
-      <div className="mt-16 text-[#d6a85c]">
-        <a href="/taxi-zaventem">Airport Transfer Zaventem</a><br />
-        <a href="/chauffeur-prive-bruxelles">Private Chauffeur</a>
       </div>
 
     </main>

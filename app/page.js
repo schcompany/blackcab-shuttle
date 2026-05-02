@@ -986,12 +986,7 @@ Special request: ${specialRequest || "-"}`
                   </div>
                 ))}
               </div>
-
-              <div className="mt-5 max-w-xl rounded-2xl border border-[#6b5431]/70 bg-black/55 px-5 py-4 text-sm font-semibold leading-6 text-white/75 shadow-2xl">
-                {t.trustedBy}
-              </div>
-
-              <div className="mt-8 inline-flex w-fit items-center gap-3 rounded-full border border-[#6b5431] bg-black/70 px-5 py-3">
+                  <div className="mt-8 inline-flex w-fit items-center gap-3 rounded-full border border-[#6b5431] bg-black/70 px-5 py-3">
                 <span
                   className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white font-black text-black"
                   aria-hidden="true"

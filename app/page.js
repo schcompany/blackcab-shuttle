@@ -84,8 +84,6 @@ const content = {
       "Trusted by 800+ customers across Belgium",
       "Secure payment link sent after booking",
     ],
-    trustedBy:
-      "Trusted by hotels, VIP clients and frequent airport travelers in Brussels.",
     googleReview: "4.7/5 from 800+ positive reviews",
     quote: "Request Your Quote",
     fastReply: "Fast reply guaranteed",
@@ -203,7 +201,7 @@ const content = {
     legalCompany: "BlackCab Shuttle Brussels",
     legalDesc: "Premium taxi, shuttle and chauffeur service in Brussels, Belgium.",
     legalPlaceholder:
-      "Operated by SCH Company SRL. VAT number and registered office address can be added here before final publication.",
+      "Operated by SCH Company SRL.",
     legalLinks: ["Privacy Policy", "Terms & Conditions", "Cookies Policy"],
     footerTagline: "Premium taxi and shuttle services in Brussels and across Belgium.",
     footerCols: [

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -34,7 +34,7 @@ const WHATSAPP = "32490373903";
 const EMAIL = "info@blackcab-shuttle.com";
 const COMPANY_NAME = "SCH Company SRL";
 const BRAND_NAME = "BlackCab Shuttle Brussels";
-const BASE_URL = "https://www.blackcab-shuttle.com";
+const BASE_URL = "https://blackcab-shuttle.com";
 const INSTAGRAM_URL =
   "https://www.instagram.com/blackcab.brussels?igsh=MWluZTV5MGZvZmxqYQ==";
 
@@ -46,7 +46,7 @@ const images = {
   fleet: ["/images/3.jpg", "/images/7.jpg", "/images/11.jpg"],
 };
 
-const createWhatsappUrl = (message = "Hello, I need a transfer with BlackCab Shuttle.") =>
+const createWhatsappUrl = (message = "Bonjour, je souhaite réserver un trajet avec BlackCab Shuttle.") =>
   `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
 
 const businessSchema = {
@@ -681,7 +681,7 @@ function ImageCard({ img, title, desc, height = "h-52", learnMoreLabel }) {
       <div className="p-5">
         <p className="min-h-[70px] leading-7 text-white/60">{desc}</p>
         <a
-          href={createWhatsappUrl(`Hello, I would like more information about ${title}.`)}
+          href={createWhatsappUrl(`Bonjour, je souhaite plus d'informations sur : ${title}.`)}
           className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#d6a85c] hover:brightness-110 transition"
         >
           {learnMoreLabel}
@@ -717,17 +717,20 @@ function FooterCol({ title, items }) {
 }
 
 // Language button with proper aria-label
-function LangButton({ code, current, onClick, label }) {
+function LangButton({ code, current, label }) {
+  const href = code === "fr" ? "/" : `/${code}`;
   return (
-    <button
-      onClick={() => onClick(code)}
-      aria-label={`Switch language to ${label}`}
+    <a
+      href={href}
+      hrefLang={code === "en" ? "en-GB" : `${code}-BE`}
+      aria-label={label}
+      aria-current={current === code ? "page" : undefined}
       className={`text-sm font-bold transition ${
         current === code ? "text-[#d6a85c]" : "text-white/60 hover:text-white"
       }`}
     >
       {code.toUpperCase()}
-    </button>
+    </a>
   );
 }
 
@@ -742,9 +745,13 @@ const CTA_ICONS = [Zap, CalendarCheck, Headphones];
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN PAGE
 // ─────────────────────────────────────────────────────────────────────────────
-export default function Page() {
-  const [lang, setLang] = useState("en");
+export function HomePage({ initialLang = "fr" }) {
+  const [lang] = useState(initialLang);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.lang = lang === "en" ? "en-GB" : `${lang}-BE`;
+  }, [lang]);
 
   // Form state
   const [pickup, setPickup] = useState("");
@@ -764,6 +771,18 @@ export default function Page() {
 
   const t = content[lang];
   const navIds = ["services", "fleet", "reviews", "faq", "contact"];
+  const faqSchema = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: t.faq.map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
+    }),
+    [t]
+  );
 
   // ── Localised select options ───────────────────────────────────────────────
   const yesNoOptions = useMemo(
@@ -792,23 +811,23 @@ export default function Page() {
     const childSeatLabel = childSeat === "yes" ? t.yes : t.no;
 
     return encodeURIComponent(
-      `Booking request - BlackCab Shuttle
-Pickup: ${pickup || "-"}
-Drop-off: ${dropoff || "-"}
-Passengers: ${passengers}
-Luggage: ${luggage}
-Date: ${date || "-"}
-Time: ${time || "-"}
-Flight number: ${flightNumber || "-"}
-Return trip: ${returnLabel}
-Child seat: ${childSeatLabel}
-Vehicle requested: ${vehicleChoice}
-Suggested vehicle: ${suggestedVehicle}
-Special request: ${specialRequest || "-"}`
+      `${lang === "fr" ? "Demande de réservation" : lang === "nl" ? "Reservatieaanvraag" : "Booking request"} - BlackCab Shuttle
+${t.pickup}: ${pickup || "-"}
+${t.dropoff}: ${dropoff || "-"}
+${t.passengers}: ${passengers}
+${t.luggage}: ${luggage}
+${t.date}: ${date || "-"}
+${t.time}: ${time || "-"}
+${t.flightNumber}: ${flightNumber || "-"}
+${t.returnTrip}: ${returnLabel}
+${t.childSeat}: ${childSeatLabel}
+${t.vehicle}: ${vehicleChoice}
+${lang === "fr" ? "Véhicule conseillé" : lang === "nl" ? "Voorgesteld voertuig" : "Suggested vehicle"}: ${suggestedVehicle}
+${t.specialRequest}: ${specialRequest || "-"}`
     );
   }, [
     pickup, dropoff, passengers, luggage, date, time,
-    flightNumber, returnTrip, childSeat, vehicleChoice, specialRequest, t,
+    flightNumber, returnTrip, childSeat, vehicleChoice, specialRequest, t, lang,
   ]);
 
   const whatsappUrl = `https://wa.me/${WHATSAPP}?text=${waMessage}`;
@@ -858,6 +877,7 @@ Special request: ${specialRequest || "-"}`
   return (
     <main className="min-h-screen bg-[#030303] pb-24 text-white md:pb-0">
       <JsonLd data={businessSchema} />
+      <JsonLd data={faqSchema} />
       <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-8">
 
         {/* ── HEADER ──────────────────────────────────────────────────────── */}
@@ -871,6 +891,9 @@ Special request: ${specialRequest || "-"}`
             </a>
 
             <nav className="hidden items-center gap-7 text-sm text-white/75 lg:flex">
+              <a href="#reservation" className="font-bold text-[#d6a85c] transition hover:text-white">
+                {lang === "fr" ? "Réserver" : lang === "nl" ? "Boeken" : "Book"}
+              </a>
               {t.nav.map((item, index) => (
                 <a
                   key={item}
@@ -884,9 +907,9 @@ Special request: ${specialRequest || "-"}`
 
             <div className="hidden items-center gap-3 md:flex">
               <div className="flex items-center gap-2" role="group" aria-label="Language selector">
-                <LangButton code="en" current={lang} onClick={setLang} label="English" />
-                <LangButton code="fr" current={lang} onClick={setLang} label="French" />
-                <LangButton code="nl" current={lang} onClick={setLang} label="Dutch" />
+                <LangButton code="fr" current={lang} label="Français" />
+                <LangButton code="nl" current={lang} label="Nederlands" />
+                <LangButton code="en" current={lang} label="English" />
                 <ChevronDown className="h-4 w-4 text-white/40" aria-hidden="true" />
               </div>
               <a
@@ -902,18 +925,35 @@ Special request: ${specialRequest || "-"}`
               </Button>
             </div>
 
-            <button
-              className="rounded-full border border-white/10 p-3 lg:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            <div className="flex items-center gap-2 lg:hidden">
+              <a
+                href={`tel:${PHONE}`}
+                onClick={() => trackConversion("mobile_header_call_click")}
+                className="grid h-11 w-11 place-items-center rounded-full bg-white text-black"
+                aria-label={t.call}
+              >
+                <Phone className="h-5 w-5" aria-hidden="true" />
+              </a>
+              <button
+                className="rounded-full border border-white/10 p-3"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+              >
+                {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
 
           {menuOpen && (
             <div className="mt-4 grid gap-2 rounded-2xl border border-white/10 bg-[#0b0b0b] p-3 lg:hidden">
+              <a
+                href="#reservation"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-xl bg-[#d6a85c] px-4 py-3 font-black text-black"
+              >
+                {lang === "fr" ? "Réserver" : lang === "nl" ? "Boeken" : "Book"}
+              </a>
               {t.nav.map((item, index) => (
                 <a
                   key={item}
@@ -929,9 +969,9 @@ Special request: ${specialRequest || "-"}`
                 role="group"
                 aria-label="Language selector"
               >
-                <LangButton code="en" current={lang} onClick={(c) => { setLang(c); setMenuOpen(false); }} label="English" />
-                <LangButton code="fr" current={lang} onClick={(c) => { setLang(c); setMenuOpen(false); }} label="French" />
-                <LangButton code="nl" current={lang} onClick={(c) => { setLang(c); setMenuOpen(false); }} label="Dutch" />
+                <LangButton code="fr" current={lang} label="Français" />
+                <LangButton code="nl" current={lang} label="Nederlands" />
+                <LangButton code="en" current={lang} label="English" />
               </div>
             </div>
           )}
@@ -953,9 +993,9 @@ Special request: ${specialRequest || "-"}`
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.76)_42%,rgba(0,0,0,0.30)_100%)] backdrop-blur-[1px]" />
 
-          <div className="relative z-10 grid min-h-[760px] gap-8 p-5 md:p-10 xl:grid-cols-[1.1fr_0.75fr]">
+          <div className="relative z-10 grid gap-8 p-5 md:p-10 xl:grid-cols-[0.8fr_1.2fr] xl:items-start">
             {/* Left column */}
-            <div className="flex flex-col justify-center">
+            <div className="order-2 flex flex-col justify-center xl:min-h-[650px]">
               <div className="mb-6 flex flex-wrap gap-3">
                 {t.heroPills.map((pill) => (
                   <span
@@ -1003,7 +1043,7 @@ Special request: ${specialRequest || "-"}`
             </div>
 
             {/* Right column — Quote form */}
-            <div className="my-auto rounded-[28px] border border-[#6b5431] bg-[#111]/90 p-4 shadow-2xl backdrop-blur-md md:p-6">
+            <div id="reservation" className="order-1 scroll-mt-28 rounded-[28px] border border-[#6b5431] bg-[#111]/95 p-4 shadow-2xl backdrop-blur-md md:p-6">
               <div className="mb-5 flex items-center justify-between gap-4">
                 <h2 className="text-2xl font-black md:text-3xl">{t.quote}</h2>
                 <span className="text-xs font-bold text-[#d6a85c]">{t.fastReply}</span>
@@ -1053,16 +1093,20 @@ Special request: ${specialRequest || "-"}`
                     value={date}
                     setValue={setDate}
                     type="date"
+                    required
+                    error={formErrors.date}
                   />
                   <Input
                     label={t.time}
                     value={time}
                     setValue={setTime}
                     type="time"
+                    required
+                    error={formErrors.time}
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3">
                   <Input
                     label={t.passengers}
                     value={passengers}
@@ -1072,64 +1116,28 @@ Special request: ${specialRequest || "-"}`
                     min="1"
                     max="8"
                   />
-                  <Input
-                    label={t.luggage}
-                    value={luggage}
-                    setValue={setLuggage}
-                    icon={<Briefcase />}
-                    type="number"
-                    min="0"
-                    max="20"
-                  />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <Input
-                    label={t.flightNumber}
-                    value={flightNumber}
-                    setValue={setFlightNumber}
-                    placeholder="SN1234"
-                  />
-                  <SelectInput
-                    label={t.returnTrip}
-                    value={returnTrip}
-                    setValue={setReturnTrip}
-                    options={yesNoOptions}
-                    ariaLabel={t.returnTrip}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <SelectInput
-                    label={t.childSeat}
-                    value={childSeat}
-                    setValue={setChildSeat}
-                    options={yesNoOptions}
-                    ariaLabel={t.childSeat}
-                  />
-                  <SelectInput
-                    label={t.vehicle}
-                    value={vehicleChoice}
-                    setValue={setVehicleChoice}
-                    options={vehicleOptions}
-                    ariaLabel={t.vehicle}
-                  />
-                </div>
-
-                <Input
-                  label={t.specialRequest}
-                  value={specialRequest}
-                  setValue={setSpecialRequest}
-                  placeholder={t.specialRequestPlaceholder}
-                />
+                <details className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <summary className="cursor-pointer text-sm font-bold text-[#d6a85c]">
+                    {lang === "fr" ? "Ajouter les détails du trajet" : lang === "nl" ? "Ritdetails toevoegen" : "Add trip details"}
+                  </summary>
+                  <div className="mt-4 grid gap-3">
+                    <div className="grid grid-cols-2 gap-3">
+                      <Input label={t.luggage} value={luggage} setValue={setLuggage} icon={<Briefcase />} type="number" min="0" max="20" />
+                      <Input label={t.flightNumber} value={flightNumber} setValue={setFlightNumber} placeholder="SN1234" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <SelectInput label={t.returnTrip} value={returnTrip} setValue={setReturnTrip} options={yesNoOptions} ariaLabel={t.returnTrip} />
+                      <SelectInput label={t.childSeat} value={childSeat} setValue={setChildSeat} options={yesNoOptions} ariaLabel={t.childSeat} />
+                    </div>
+                    <SelectInput label={t.vehicle} value={vehicleChoice} setValue={setVehicleChoice} options={vehicleOptions} ariaLabel={t.vehicle} />
+                    <Input label={t.specialRequest} value={specialRequest} setValue={setSpecialRequest} placeholder={t.specialRequestPlaceholder} />
+                  </div>
+                </details>
 
                 <Button href={whatsappUrl} onClick={handleQuoteSubmit}>
                   {t.request}
-                </Button>
-
-                <Button href={whatsappUrl} dark onClick={() => trackConversion("whatsapp_click")} hideArrow>
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                  {t.whatsapp}
                 </Button>
 
                 <Button href={`tel:${PHONE}`} dark onClick={() => trackConversion("call_click")} hideArrow>
@@ -1409,10 +1417,10 @@ Special request: ${specialRequest || "-"}`
                 </a>
               </p>
               <div className="flex flex-wrap gap-3 pt-1">
-                {t.legalLinks.map((link) => (
+                {t.legalLinks.map((link, index) => (
                   <a
                     key={link}
-                    href="#"
+                    href={["/confidentialite", "/conditions-generales", "/cookies"][index]}
                     className="text-white/50 hover:text-[#d6a85c] underline transition"
                   >
                     {link}
@@ -1422,6 +1430,19 @@ Special request: ${specialRequest || "-"}`
             </div>
           </div>
         </section>
+
+        <nav aria-label="Pages locales" className="mt-8 rounded-[24px] border border-white/10 bg-[#0b0b0b] p-5">
+          <div className="text-sm font-bold uppercase tracking-[0.2em] text-white/45">
+            {lang === "fr" ? "Zones et services" : lang === "nl" ? "Zones en diensten" : "Areas and services"}
+          </div>
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-sm font-bold text-[#d6a85c]">
+            <a href="/taxi-bruxelles">Taxi Bruxelles</a>
+            <a href="/taxi-zaventem">Taxi Zaventem</a>
+            <a href="/chauffeur-prive-bruxelles">Chauffeur privé Bruxelles</a>
+            <a href="/conditions-generales">Conditions générales</a>
+            <a href="/confidentialite">Confidentialité</a>
+          </div>
+        </nav>
 
         {/* ── FOOTER ──────────────────────────────────────────────────────── */}
         <footer id="contact" className="mt-12 rounded-[28px] border border-white/10 bg-[#080808] p-8">
@@ -1486,4 +1507,8 @@ Special request: ${specialRequest || "-"}`
       </div>
     </main>
   );
+}
+
+export default function Page() {
+  return <HomePage initialLang="fr" />;
 }

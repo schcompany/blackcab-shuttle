@@ -1,69 +1,16 @@
+import SeoLanding from "../_components/SeoLanding";
+
 export const metadata = {
-  title: "Taxi Zaventem Airport | Brussels Airport Transfer 24/7",
-  description:
-    "Taxi Brussels Airport Zaventem with fixed prices, flight tracking and premium vehicles. Book your airport transfer instantly.",
+  title: "Taxi Zaventem – Transfert Brussels Airport 24h/24",
+  description: "Taxi entre Bruxelles et l'aéroport de Zaventem avec suivi du vol, accueil sur demande et prix annoncé avant réservation.",
+  alternates: { canonical: "/taxi-zaventem" },
 };
 
 export default function Page() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "TaxiService",
-    areaServed: "Brussels Airport Zaventem",
-  };
-
-  return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
-
-      <script type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-
-      <h1 className="text-5xl font-black">
-        Taxi Brussels Airport Zaventem
-      </h1>
-
-      <p className="mt-6 text-white/70 max-w-3xl leading-8">
-        Book a reliable taxi to or from Brussels Airport Zaventem with fixed pricing and premium service.
-      </p>
-
-      <h2 className="mt-10 text-2xl font-bold">
-        Airport transfers with flight tracking
-      </h2>
-
-      <p className="mt-4 text-white/70">
-        We monitor your flight in real-time and adjust pickup automatically in case of delays.
-      </p>
-
-      <h2 className="mt-10 text-2xl font-bold">
-        Taxi from Zaventem to Brussels
-      </h2>
-
-      <p className="mt-4 text-white/70">
-        Travel quickly to your hotel, office or home in Brussels with a premium vehicle.
-      </p>
-
-      <h3 className="mt-10 text-xl font-bold">
-        Why choose our airport taxi?
-      </h3>
-
-      <ul className="mt-4 space-y-2 text-white/80">
-        <li>✔ Fixed airport price</li>
-        <li>✔ Flight tracking included</li>
-        <li>✔ Meet & greet option</li>
-        <li>✔ VIP chauffeur available</li>
-      </ul>
-
-      <div className="mt-10">
-        <a href="https://wa.me/32490373903" className="bg-[#d6a85c] px-6 py-3 rounded-full text-black font-bold">
-          Book airport transfer
-        </a>
-      </div>
-
-      <div className="mt-16 text-[#d6a85c]">
-        <a href="/taxi-bruxelles">Taxi Brussels</a><br />
-        <a href="/chauffeur-prive-bruxelles">Private Chauffeur</a>
-      </div>
-
-    </main>
-  );
+  return <SeoLanding title="Taxi Bruxelles – Aéroport de Zaventem" intro="Réservez votre transfert vers ou depuis Brussels Airport. Nous adaptons l'heure d'accueil en fonction du vol et vous conduisons directement à votre adresse." url="/taxi-zaventem" serviceType="Transfert aéroport Zaventem" image="/images/1.jpg" sections={[
+    { heading: "Départ depuis Bruxelles", text: "Votre chauffeur vient à l'adresse indiquée et prévoit une marge adaptée à l'heure du vol, au terminal et aux conditions de circulation." },
+    { heading: "Arrivée à Brussels Airport", text: "Le numéro de vol permet de suivre l'arrivée. Un accueil avec panneau peut être organisé sur demande au point de rendez-vous communiqué." },
+    { heading: "Prix clair avant le trajet", text: "Le montant est annoncé avant confirmation pour éviter les mauvaises surprises.", items: ["Suivi du vol", "Aide avec les bagages", "Siège enfant sur demande", "Paiement par carte ou espèces"] },
+    { heading: "Pour particuliers et entreprises", text: "Transferts individuels, familles, hôtels, collaborateurs et clients d'entreprise, avec facture professionnelle si nécessaire." },
+  ]} />;
 }

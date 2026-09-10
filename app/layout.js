@@ -1,9 +1,13 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "BlackCab Shuttle Brussels | Taxi & Airport Transfer Brussels",
+  metadataBase: new URL("https://blackcab-shuttle.com"),
+  title: {
+    default: "Taxi Bruxelles & Navette Aéroport 24/7 | BlackCab Shuttle",
+    template: "%s | BlackCab Shuttle",
+  },
   description:
-    "BlackCab Shuttle Brussels offers premium airport transfers, taxi Brussels, taxi Zaventem, Tesla rides, Mercedes van and VIP chauffeur service across Belgium.",
+    "Réservez votre taxi à Bruxelles ou votre navette vers Zaventem et Charleroi. Prix fixe annoncé, service 24h/24 et réservation rapide.",
   keywords: [
     "taxi Bruxelles",
     "taxi Brussels",
@@ -17,18 +21,32 @@ export const metadata = {
     "navette aéroport Bruxelles",
   ],
   openGraph: {
-    title: "BlackCab Shuttle Brussels | Premium Airport Transfers",
+    title: "Taxi Bruxelles & Navette Aéroport 24/7 | BlackCab Shuttle",
     description:
-      "Premium taxi, Tesla, Mercedes van and VIP chauffeur service in Brussels and across Belgium.",
-    url: "https://www.blackcab-shuttle.com",
+      "Taxi, navette aéroport et chauffeur privé à Bruxelles. Prix fixe et réservation rapide 24h/24.",
+    url: "https://blackcab-shuttle.com",
     siteName: "BlackCab Shuttle Brussels",
+    locale: "fr_BE",
+    alternateLocale: ["nl_BE", "en_GB"],
     type: "website",
+    images: [{ url: "/images/1.jpg", width: 1200, height: 630, alt: "BlackCab Shuttle Bruxelles" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Taxi Bruxelles & Navette Aéroport 24/7",
+    description: "Prix fixe, service 24h/24 et réservation rapide.",
+    images: ["/images/1.jpg"],
+  },
+  alternates: {
+    canonical: "/",
+    languages: { "fr-BE": "/", "nl-BE": "/nl", "en-GB": "/en", "x-default": "/" },
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="fr-BE">
       <body>{children}</body>
     </html>
   );

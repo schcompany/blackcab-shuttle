@@ -20,29 +20,29 @@ export default function SeoLanding({ title, intro, sections, url, serviceType, i
   };
 
   return (
-    <main className="min-h-screen bg-white pb-24 text-[#10203a] md:pb-0">
+    <main className="min-h-screen bg-white pb-24 text-[#23231f] md:pb-0">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <header className="sticky top-0 z-40 border-b border-[#dbe4f0] bg-white/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-[#e6e0d4] bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
           <Link href="/" className="leading-none">
             <div className="text-xl font-black">BLACKCAB</div>
-            <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1268df]">Shuttle Brussels</div>
+            <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#806020]">Shuttle Brussels</div>
           </Link>
           <div className="flex gap-2">
             <a href={`tel:${PHONE}`} className="rounded-full bg-white px-4 py-2 text-sm font-black text-black">Appeler</a>
-            <Link href="/#reservation" className="hidden rounded-full bg-[#1268df] px-4 py-2 text-sm font-black text-white sm:inline-flex">Réserver</Link>
+            <Link href="/#reservation" className="hidden rounded-full bg-[#806020] px-4 py-2 text-sm font-black text-white sm:inline-flex">Réserver</Link>
           </div>
         </div>
       </header>
 
       <article className="mx-auto max-w-6xl px-5 py-8 md:py-14">
-        <div className="grid items-center gap-8 overflow-hidden rounded-[28px] bg-[#061f47] p-6 text-white lg:grid-cols-[1.05fr_0.95fr] lg:p-10">
+        <div className="grid items-center gap-8 overflow-hidden rounded-[28px] bg-[#151513] p-6 text-white lg:grid-cols-[1.05fr_0.95fr] lg:p-10">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#b9d8ff]">Service 24h/24 · Prix annoncé avant confirmation</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#e6c987]">Service 24h/24 · Prix annoncé avant confirmation</p>
             <h1 className="mt-4 text-4xl font-black leading-tight md:text-6xl">{title}</h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">{intro}</p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/#reservation" className="rounded-full bg-[#1268df] px-6 py-3 font-black text-white">Demander un devis</Link>
+              <Link href="/#reservation" className="rounded-full bg-[#806020] px-6 py-3 font-black text-white">Demander un devis</Link>
               <a href={`tel:${PHONE}`} className="rounded-full border border-white/20 px-6 py-3 font-black">Appeler maintenant</a>
             </div>
           </div>
@@ -54,15 +54,15 @@ export default function SeoLanding({ title, intro, sections, url, serviceType, i
 
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           {sections.map((section) => (
-            <section key={section.heading} className="rounded-[20px] border border-[#dbe4f0] bg-[#f7f9fc] p-6">
+            <section key={section.heading} className="rounded-[20px] border border-[#e6e0d4] bg-[#f7f5ef] p-6">
               <h2 className="text-2xl font-black">{section.heading}</h2>
-              <p className="mt-3 leading-7 text-[#64748b]">{section.text}</p>
-              {section.items && <ul className="mt-4 space-y-2 text-[#42526a]">{section.items.map((item) => <li key={item}>✓ {item}</li>)}</ul>}
+              <p className="mt-3 leading-7 text-[#66645e]">{section.text}</p>
+              {section.items && <ul className="mt-4 space-y-2 text-[#5d574b]">{section.items.map((item) => <li key={item}>✓ {item}</li>)}</ul>}
             </section>
           ))}
         </div>
 
-        <nav aria-label="Services associés" className="mt-10 flex flex-wrap gap-3 border-t border-[#dbe4f0] pt-7 text-sm font-bold text-[#1268df]">
+        <nav aria-label="Services associés" className="mt-10 flex flex-wrap gap-3 border-t border-[#e6e0d4] pt-7 text-sm font-bold text-[#806020]">
           <Link href="/taxi-bruxelles">Taxi Bruxelles</Link>
           <Link href="/taxi-zaventem">Taxi Zaventem</Link>
           <Link href="/chauffeur-prive-bruxelles">Chauffeur privé Bruxelles</Link>
@@ -70,8 +70,8 @@ export default function SeoLanding({ title, intro, sections, url, serviceType, i
         </nav>
       </article>
 
-      <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-[#dbe4f0] bg-white/95 p-2 md:hidden">
-        <Link href="/#reservation" className="rounded-xl bg-[#1268df] px-3 py-4 text-center text-sm font-black">Réserver</Link>
+      <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-[#e6e0d4] bg-white/95 p-2 md:hidden">
+        <Link href="/#reservation" className="rounded-xl bg-[#806020] px-3 py-4 text-center text-sm font-black">Réserver</Link>
         <a href={`tel:${PHONE}`} className="rounded-xl bg-white px-3 py-4 text-center text-sm font-black text-black">Appeler</a>
       </div>
     </main>

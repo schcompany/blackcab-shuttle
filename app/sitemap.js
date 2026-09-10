@@ -10,6 +10,12 @@ const routes = [
   "/confidentialite",
   "/conditions-generales",
   "/cookies",
+  "/nl/privacy",
+  "/nl/algemene-voorwaarden",
+  "/nl/cookies",
+  "/en/privacy",
+  "/en/terms",
+  "/en/cookies",
 ];
 
 export default function sitemap() {

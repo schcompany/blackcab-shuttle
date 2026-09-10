@@ -97,6 +97,7 @@ const copy = {
     footerLinks: ["Taxi Bruxelles", "Taxi Zaventem", "Chauffeur privé"],
     legalLinks: ["Confidentialité", "Conditions", "Cookies"],
     legalHrefs: ["/confidentialite", "/conditions-generales", "/cookies"],
+    languageLabel: "Langue",
   },
   nl: {
     top: "Taxi 24/7 · Brussel en luchthavens", nav: ["Tarieven", "Voertuigen", "Voordelen", "FAQ"], book: "Boeken", call: "Bellen",
@@ -125,6 +126,7 @@ const copy = {
     footerLinks: ["Taxi Brussel", "Taxi Zaventem", "Privéchauffeur"],
     legalLinks: ["Privacy", "Voorwaarden", "Cookies"],
     legalHrefs: ["/nl/privacy", "/nl/algemene-voorwaarden", "/nl/cookies"],
+    languageLabel: "Taal",
   },
   en: {
     top: "Taxi 24/7 · Brussels and airports", nav: ["Fares", "Vehicles", "Benefits", "FAQ"], book: "Book", call: "Call",
@@ -148,15 +150,20 @@ const copy = {
     footerLinks: ["Brussels taxi", "Zaventem taxi", "Private chauffeur"],
     legalLinks: ["Privacy", "Terms", "Cookies"],
     legalHrefs: ["/en/privacy", "/en/terms", "/en/cookies"],
+    languageLabel: "Language",
   },
 };
 
-const communes = ["Bruxelles-Ville", "Anderlecht", "Auderghem", "Berchem-Sainte-Agathe", "Etterbeek", "Evere", "Forest", "Ganshoren", "Ixelles", "Jette", "Koekelberg", "Molenbeek", "Saint-Gilles", "Saint-Josse", "Schaerbeek", "Uccle", "Watermael-Boitsfort", "Woluwe-Saint-Lambert", "Woluwe-Saint-Pierre"];
+const communesByLang = {
+  fr: ["Bruxelles-Ville", "Anderlecht", "Auderghem", "Berchem-Sainte-Agathe", "Etterbeek", "Evere", "Forest", "Ganshoren", "Ixelles", "Jette", "Koekelberg", "Molenbeek-Saint-Jean", "Saint-Gilles", "Saint-Josse-ten-Noode", "Schaerbeek", "Uccle", "Watermael-Boitsfort", "Woluwe-Saint-Lambert", "Woluwe-Saint-Pierre"],
+  nl: ["Stad Brussel", "Anderlecht", "Oudergem", "Sint-Agatha-Berchem", "Etterbeek", "Evere", "Vorst", "Ganshoren", "Elsene", "Jette", "Koekelberg", "Sint-Jans-Molenbeek", "Sint-Gillis", "Sint-Joost-ten-Node", "Schaarbeek", "Ukkel", "Watermaal-Bosvoorde", "Sint-Lambrechts-Woluwe", "Sint-Pieters-Woluwe"],
+  en: ["City of Brussels", "Anderlecht", "Auderghem", "Berchem-Sainte-Agathe", "Etterbeek", "Evere", "Forest", "Ganshoren", "Ixelles", "Jette", "Koekelberg", "Molenbeek-Saint-Jean", "Saint-Gilles", "Saint-Josse-ten-Noode", "Schaerbeek", "Uccle", "Watermael-Boitsfort", "Woluwe-Saint-Lambert", "Woluwe-Saint-Pierre"],
+};
 const fleetImages = ["/images/3.jpg", "/images/7.jpg", "/images/11.jpg"];
 const benefitIcons = [Droplets, Wifi, Earth, CreditCard];
 
-function LanguageLinks({ lang }) {
-  return <div className="language-switcher" aria-label="Langue">
+function LanguageLinks({ lang, label }) {
+  return <div className="language-switcher" aria-label={label}>
     {[['fr', '/'], ['nl', '/nl'], ['en', '/en']].map(([code, href]) => <a key={code} href={href} hrefLang={code === 'en' ? 'en-BE' : `${code}-BE`} className={lang === code ? 'active' : ''}>{code.toUpperCase()}</a>)}
   </div>;
 }
@@ -209,6 +216,7 @@ function BookingForm({ lang, t }) {
 export function HomePage({ initialLang = "fr" }) {
   const lang = initialLang;
   const t = copy[lang];
+  const communes = communesByLang[lang];
   const [menu, setMenu] = useState(false);
   useEffect(() => { document.documentElement.lang = lang === "en" ? "en-BE" : `${lang}-BE`; }, [lang]);
 
@@ -244,7 +252,7 @@ export function HomePage({ initialLang = "fr" }) {
     <header className="site-header">
       <a className="brand" href={lang === "fr" ? "/" : `/${lang}`} aria-label="BlackCab Shuttle"><span className="brand-mark"><CarFront /></span><span><strong>BLACKCAB</strong><small>Shuttle Brussels</small></span></a>
       <nav className="desktop-nav">{t.nav.map((item, i) => <a key={item} href={`#${navIds[i]}`}>{item}</a>)}</nav>
-      <div className="header-actions"><LanguageLinks lang={lang} /><a className="header-book" href="#reservation">{t.book}</a><button className="menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-label="Menu">{menu ? <X /> : <Menu />}</button></div>
+      <div className="header-actions"><LanguageLinks lang={lang} label={t.languageLabel} /><a className="header-book" href="#reservation">{t.book}</a><button className="menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-label="Menu">{menu ? <X /> : <Menu />}</button></div>
       {menu && <nav className="mobile-nav"><a className="mobile-book" href="#reservation" onClick={() => setMenu(false)}>{t.book}</a>{t.nav.map((item, i) => <a key={item} href={`#${navIds[i]}`} onClick={() => setMenu(false)}>{item}</a>)}</nav>}
     </header>
 

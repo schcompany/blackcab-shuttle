@@ -9,7 +9,7 @@ export default function LegalPage({ title, updated, children }) {
         <p className="mt-3 text-sm text-white/45">Dernière mise à jour : {updated}</p>
         <div className="mt-8 space-y-7 leading-7 text-white/70">{children}</div>
         <div className="mt-10 border-t border-white/10 pt-6 text-sm text-white/50">
-          BlackCab Shuttle · SCH Company SRL · Bruxelles · info@blackcab-shuttle.com · +32 490 37 39 03
+          BlackCab Shuttle · SCH Company SRL · Bruxelles · info@blackcab-shuttle.com · 02 886 21 40
         </div>
       </article>
     </main>

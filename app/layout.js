@@ -7,7 +7,12 @@ export const metadata = {
     template: "%s | BlackCab Shuttle",
   },
   description:
-    "Réservez votre taxi à Bruxelles ou votre navette vers Zaventem et Charleroi. Prix fixe annoncé, service 24h/24 et réservation rapide.",
+    "Réservez votre taxi à Bruxelles vers Zaventem ou Charleroi. Prix annoncé dès 29 €, sans commission, service 24h/24 et chauffeur trilingue.",
+  applicationName: "BlackCab Shuttle",
+  creator: "SCH Company SRL",
+  publisher: "SCH Company SRL",
+  category: "transportation",
+  formatDetection: { address: false, email: false, telephone: false },
   keywords: [
     "taxi Bruxelles",
     "taxi Brussels",
@@ -43,6 +48,8 @@ export const metadata = {
   },
   robots: { index: true, follow: true },
 };
+
+export const viewport = { themeColor: "#061f47", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }) {
   return (

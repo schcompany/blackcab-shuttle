@@ -1,1514 +1,255 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
-  Briefcase,
-  Building2,
+  BriefcaseBusiness,
+  CalendarDays,
   CarFront,
   Check,
-  ChevronDown,
-  CircleDollarSign,
   Clock3,
-  Headphones,
-  Hotel,
-  MapPin,
+  CreditCard,
+  Droplets,
+  Earth,
+  Mail,
   Menu,
-  MessageCircle,
   Phone,
-  Shield,
+  Plane,
+  ShieldCheck,
   Star,
   Users,
+  Wifi,
   X,
-  Zap,
-  CalendarCheck,
 } from "lucide-react";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CONSTANTS
-// ─────────────────────────────────────────────────────────────────────────────
-const PHONE = "+32490373903";
-const WHATSAPP = "32490373903";
-const EMAIL = "info@blackcab-shuttle.com";
-const COMPANY_NAME = "SCH Company SRL";
-const BRAND_NAME = "BlackCab Shuttle Brussels";
-const BASE_URL = "https://blackcab-shuttle.com";
-const INSTAGRAM_URL =
-  "https://www.instagram.com/blackcab.brussels?igsh=MWluZTV5MGZvZmxqYQ==";
+const PHONE_LINK = "+3228862140";
+const PHONE_DISPLAY = "02 886 21 40";
+const CONTACT_EMAIL = "info@blackcab-shuttle.com";
 
-const images = {
-  hero: "/images/1.jpg",
-  interior: "/images/5.jpg",
-  cta: "/images/10.jpg",
-  services: ["/images/2.jpg", "/images/8.jpg", "/images/4.jpg", "/images/9.jpg"],
-  fleet: ["/images/3.jpg", "/images/7.jpg", "/images/11.jpg"],
-};
-
-const createWhatsappUrl = (message = "Bonjour, je souhaite réserver un trajet avec BlackCab Shuttle.") =>
-  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
-
-const businessSchema = {
-  "@context": "https://schema.org",
-  "@type": "TaxiService",
-  name: BRAND_NAME,
-  legalName: COMPANY_NAME,
-  url: BASE_URL,
-  telephone: PHONE,
-  email: EMAIL,
-  areaServed: ["Brussels", "Brussels Airport", "Zaventem", "Charleroi", "Belgium"],
-  serviceType: [
-    "Airport transfer",
-    "Taxi service",
-    "Private chauffeur",
-    "VIP chauffeur service",
-    "Mercedes van transport",
-  ],
-  availableLanguage: ["English", "French", "Dutch"],
-  openingHours: "Mo-Su 00:00-23:59",
-  priceRange: "€€",
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// TRANSLATIONS — all strings in all 3 languages, no hard-coded English
-// ─────────────────────────────────────────────────────────────────────────────
-const content = {
-  en: {
-    nav: ["Services", "Fleet", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Airport Shuttle in Brussels, Charleroi, Paris, Amsterdam",
-    heroText:
-      "Travel in comfort with our Tesla fleet, Mercedes Van and VIP service. Fixed prices, fast confirmation by WhatsApp.",
-    bullets: [
-      "Brussels Airport from €29",
-      "Trusted by 800+ customers across Belgium",
-      "Secure payment link sent after booking",
-    ],
-    googleReview: "4.7/5 from 800+ positive reviews",
-    quote: "Request Your Quote",
-    fastReply: "Fast reply guaranteed",
-    quickTitle: "Popular routes",
-    quickLocations: ["Brussels Airport", "Charleroi Airport", "Brussels Midi", "City Center"],
-    pickup: "Pickup location",
-    dropoff: "Drop-off location",
-    date: "Date",
-    time: "Time",
-    passengers: "Passengers",
-    luggage: "Luggage",
-    flightNumber: "Flight number",
-    returnTrip: "Return trip",
-    childSeat: "Child seat",
-    vehicle: "Vehicle",
-    specialRequest: "Special request",
-    specialRequestPlaceholder: "Ex: name sign, reduced mobility…",
-    no: "No",
-    yes: "Yes",
-    fieldRequired: "Required field",
-    request: "Request my quote",
-    whatsapp: "Send on WhatsApp",
-    call: "Call us",
-    stats: [
-      ["800+", "Positive Reviews"],
-      ["9,000+", "Trips Completed"],
-      ["4.7/5", "Average Rating"],
-      ["24/7", "Available"],
-      ["< 2 min", "Reply Time"],
-    ],
-    whyTitle: "Why Choose BlackCab Shuttle?",
-    whyText:
-      "We combine luxury, reliability and premium service for private and corporate clients.",
-    why: [
-      ["Tesla Comfort", "Premium black Tesla vehicles for every transfer."],
-      ["Fixed Prices", "Know your exact price before you book."],
-      ["Professional Drivers", "Licensed, multilingual and discreet drivers."],
-      ["Flight Monitoring", "We track your flight and adapt to any delay."],
-      ["24/7 Service", "Available day and night, 365 days a year."],
-      ["Door-to-Door", "Pickup and drop-off exactly where you need."],
-    ],
-    howTitle: "How It Works",
-    how: [
-      ["Enter Your Ride", "Add pickup, destination and trip details."],
-      ["Receive Your Quote", "We reply quickly with a fixed, all-inclusive price."],
-      ["Confirm & Relax", "Book by WhatsApp and receive instant confirmation."],
-    ],
-    perfect: "Perfect for",
-    perfectItems: [
-      "Airport Travelers",
-      "Business Customers",
-      "Hotels & VIP Clients",
-      "Tourists Visiting Belgium",
-    ],
-    servicesTitle: "Our Services",
-    servicesSub:
-      "Tailored to airport travelers, business customers, hotels, VIP clients and tourists visiting Belgium.",
-    learnMore: "Learn more",
-    services: [
-      ["Airport Transfers", "Brussels Airport, Charleroi and all major transfer routes."],
-      ["City Rides", "Fast, comfortable rides anywhere in Brussels."],
-      ["Long Distance", "Travel across Belgium with direct confirmation."],
-      ["Business Travel", "Executive rides, monthly invoicing and priority service."],
-    ],
-    fleetTitle: "Our Fleet",
-    fleetSub: "Choose the right vehicle for your journey.",
-    fleet: [
-      ["Tesla Premium", "1–4 passengers. Ideal for premium airport transfers."],
-      ["Mercedes Vito Van", "Up to 8 passengers. Ideal for families, groups and extra luggage."],
-      ["VIP Business Service", "Premium driver experience for corporates, hotels and events."],
-    ],
-    customerTrust: "Customer trust",
-    customerTrustTitle: "Premium transfers with fast response and real local service.",
-    customerTrustText:
-      "Direct WhatsApp communication, fixed prices, clean vehicles and professional drivers.",
-    reviewStats: ["800+ Reviews", "9,000+ Trips", "24/7 Support"],
-    reviewsTitle: "Verified Customer Reviews",
-    verifiedCustomer: "Verified Customer",
-    reviews: [
-      ["Patrick D.", "Bruxelles", "Perfect service. Driver on time and very professional.", "March 2026"],
-      ["Sophie L.", "Waterloo", "Quick reply, easy booking and smooth airport transfer.", "March 2026"],
-      ["Olivier M.", "Uccle", "Clean car, polite driver and excellent comfort.", "February 2026"],
-      ["Bernard T.", "Woluwe-Saint-Pierre", "Serious service and clear communication.", "February 2026"],
-    ],
-    ctaTitle: "Ready to Ride?",
-    ctaText:
-      "Book now a premium Tesla transfers, Mercedes van transport and VIP chauffeur service in Belgium.",
-    ctaCards: [
-      ["Instant Booking", "Send your details and get confirmed in minutes."],
-      ["Direct Confirmation", "Receive your booking confirmation on WhatsApp."],
-      ["24/7 Support", "Our team is available around the clock for you."],
-    ],
-    paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Secure Online Payment"],
-    seoTitle: "Taxi Brussels, Airport Transfer & VIP driver Service",
-    seoTexts: [
-      "BlackCab Shuttle Brussels provides premium taxi services, Brussels Airport transfers, Zaventem airport shuttle, private drivers, Mercedes Vito Van transport and VIP service across Belgium.",
-      "Book your taxi in Brussels easily via WhatsApp with fixed prices, professional drivers and fast confirmation. Whether you need an airport transfer, a city ride or a long-distance ride, BlackCab Shuttle guarantees comfort and reliability.",
-      "Our services include airport Zaventem shuttle in Brussels, VIP chauffeur service and Mercedes Van transport for groups and families.",
-    ],
-    businessTag: "Business Accounts",
-    businessText:
-      "Monthly invoicing • Priority bookings • Dedicated chauffeur service for companies, executives and hotels.",
-    faqTitle: "FAQ",
-    faq: [
-      ["How do I book?", "Send your trip details via WhatsApp and we confirm availability and price instantly."],
-      ["How fast do you respond?", "Most requests receive a reply in under 2 minutes."],
-      ["Do you offer airport transfers?", "Yes, to and from Brussels Airport, Charleroi and other Belgian destinations."],
-      ["Can I book for business travel?", "Yes, we offer business accounts, monthly invoicing and priority bookings."],
-    ],
-    priorityTag: "Priority booking",
-    priorityTitle: "Need a driver today?",
-    priorityText:
-      "Send your itinerary on WhatsApp and receive a fast quote with the right vehicle: Tesla, Mercedes van or VIP chauffeur service.",
-    legalTitle: "Legal information",
-    legalCompany: "BlackCab Shuttle Brussels",
-    legalDesc: "Premium taxi, shuttle and chauffeur service in Brussels, Belgium.",
-    legalPlaceholder:
-      "Operated by SCH Company SRL.",
-    legalLinks: ["Privacy Policy", "Terms & Conditions", "Cookies Policy"],
-    footerTagline: "Premium taxi and shuttle services in Brussels and across Belgium.",
-    footerCols: [
-      {
-        title: "Services",
-        items: ["Airport Transfers", "City Rides", "Long Distance", "Business Travel"],
-      },
-      {
-        title: "Company",
-        items: ["About Us", "Our Fleet", "Reviews", "Contact"],
-      },
-      {
-        title: "Contact",
-        items: [
-          { label: "+32 490 37 39 03", href: `tel:${PHONE}` },
-          { label: "WhatsApp", href: createWhatsappUrl() },
-          { label: EMAIL, href: `mailto:${EMAIL}` },
-          "Brussels, Belgium",
-          "24/7 Available",
-        ],
-      },
-    ],
-    copyright: "© 2026 BlackCab Shuttle Brussels. All rights reserved.",
-    heroPills: ["Fixed Prices", "24/7 Service", "VIP Chauffeur Service"],
-  },
-
+const copy = {
   fr: {
-    nav: ["Services", "Flotte", "Avis", "FAQ", "Contact"],
-    heroTitle: "Transferts Aéroport et Gares: Bruxelles, Charleroi, Amsterdam et Paris",
-    heroText:
-      "Voyagez en confort avec notre flotte Tesla 3, Y et Mercedes Van. Prix fixe, chauffeurs professionnels et confirmation rapide via WhatsApp ou téléphone.",
-    bullets: [
-      "Aéroport de Bruxelles dès 29€",
-      "Déjà 800+ clients nous font confiance",
-      "Lien de paiement sécurisé après réservation",
-    ],
-    trustedBy:
-      "Choisi par les professionnels, hôtels, clients voyageurs fréquents à Bruxelles.",
-    googleReview: "4,7/5 d'après 800+ avis positifs",
-    quote: "Demandez votre devis",
-    fastReply: "Réponse rapide",
-    quickTitle: "Trajets populaires",
-    quickLocations: ["Brussels Airport", "Charleroi Airport", "Bruxelles-Midi", "Centre-ville"],
-    pickup: "Lieu de prise en charge",
-    dropoff: "Lieu de destination",
-    date: "Date",
-    time: "Heure",
-    passengers: "Passagers",
-    luggage: "Bagages",
-    flightNumber: "N° de vol",
-    returnTrip: "Aller-retour",
-    childSeat: "Siège enfant",
-    vehicle: "Véhicule",
-    specialRequest: "Message spécial",
-    specialRequestPlaceholder: "Ex : accueil avec panneau, PMR…",
-    no: "Non",
-    yes: "Oui",
-    fieldRequired: "Champ requis",
-    request: "Demander un devis",
-    whatsapp: "Envoyer sur WhatsApp",
+    top: "Taxi 24h/24 · 7j/7 · Bruxelles et aéroports",
+    nav: ["Tarifs", "Véhicules", "Avantages", "FAQ"],
+    book: "Réserver",
     call: "Appeler",
-    stats: [
-      ["800+", "Avis positifs"],
-      ["9 000+", "Courses effectuées"],
-      ["4,7/5", "Note moyenne"],
-      ["24/7", "Disponible"],
-      ["< 2 min", "Réponse"],
+    eyebrow: "Taxi premium à Bruxelles",
+    title: "Votre transfert avec chauffeur, au prix annoncé.",
+    lead: "Réservez en quelques instants. Chauffeur ponctuel, prix fixe sans commission et prise en charge partout à Bruxelles.",
+    trust: ["Zaventem dès 29 €", "Sans commission", "Chauffeur FR · NL · EN"],
+    formTitle: "Réserver votre trajet",
+    formSub: "Votre demande est envoyée directement par e-mail.",
+    fields: {
+      from: "Départ / prise en charge", fromPh: "Adresse, hôtel ou gare",
+      to: "Destination", toPh: "Aéroport ou adresse", date: "Date", time: "Heure",
+      passengers: "Passagers", vehicle: "Véhicule", name: "Nom", namePh: "Votre nom",
+      phone: "Téléphone", phonePh: "Votre numéro", email: "E-mail", emailPh: "Pour recevoir la confirmation",
+      details: "Vol, bagages ou demande particulière", detailsPh: "N° de vol, nombre de bagages, siège enfant…",
+    },
+    vehicles: ["Confort électrique", "Van Mercedes", "Service VIP"],
+    consent: "J’accepte que mes données soient utilisées pour traiter cette réservation.",
+    send: "Envoyer ma demande",
+    sending: "Envoi en cours…",
+    success: "Demande envoyée. Nous vous répondons rapidement par téléphone ou par e-mail.",
+    error: "L’envoi a échoué. Appelez-nous directement au 02 886 21 40.",
+    secure: "Aucun paiement immédiat. Le prix est confirmé avant le trajet.",
+    faresEyebrow: "Prix annoncés",
+    faresTitle: "Les trajets les plus demandés",
+    faresSub: "Le tarif exact est confirmé avant votre trajet, sans commission ajoutée.",
+    fares: [
+      ["Bruxelles ↔ Zaventem", "Dès 29 €", "Suivi du vol et prise en charge à l’adresse indiquée."],
+      ["Bruxelles ↔ Charleroi", "Dès 79 €", "Transfert direct vers Brussels South Charleroi Airport."],
     ],
-    whyTitle: "Pourquoi choisir BlackCab Shuttle ?",
-    whyText:
-      "Nous combinons luxe, fiabilité et service premium pour clients privés et professionnels.",
-    why: [
-      ["Confort Tesla", "Véhicules Tesla pour chaque trajet."],
-      ["Prix fixes", " Tarif connu à l'avance sans surprise"],
-      ["Chauffeurs professionnels", "Licenciés, multilingues et à vôtre service."],
-      ["Suivi des vols", "Nous suivons votre vol et nous nous adaptons à tout retard."],
-      ["Service 24/7", "Disponible 24h/24, 7j/7."],
-      ["Porte-à-porte", "Prise en charge et dépose où vous le souhaitez."],
-    ],
-    howTitle: "Comment ça marche",
-    how: [
-      ["Indiquez votre trajet", "Renseignez votre lieu de départ, destination et détails du trajet."],
-      ["Recevez votre devis", "Nous répondons vite avec un prix fixe tout compris."],
-      ["Confirmez et détendez-vous", "Réservez via WhatsApp et recevez une confirmation immédiate."],
-    ],
-    perfect: "Idéal pour",
-    perfectItems: [
-      "Voyageurs",
-      "Professionels",
-      "Hôtels & clients VIP",
-      "Touristes en Belgique",
-    ],
-    servicesTitle: "Nos Services",
-    servicesSub:
-      "Pensés pour voyageurs, professionnels, hôtels, clients VIP et touristes en Belgique.",
-    learnMore: "En savoir plus",
-    services: [
-      ["Transferts Aéroport", "Aéroport de Bruxelles, Charleroi, Paris, Amsterdam."],
-      ["Trajets urbains", "Déplacements rapides et confortables à Bruxelles."],
-      ["Longue distance", "Voyagez à travers la Belgique avec confirmation immédiate."],
-      ["Business Travel", "Trajets exécutifs, facturation mensuelle et service dédié."],
-    ],
-    fleetTitle: "Notre Flotte",
-    fleetSub: "Choisissez le véhicule adapté à votre trajet.",
+    fleetEyebrow: "Notre flotte",
+    fleetTitle: "Le bon véhicule pour chaque trajet",
     fleet: [
-      ["Tesla", "1–4 passagers. Idéal pour transferts aéroport."],
-      ["Mercedes Vito Van", "Jusqu'à 8 passagers. Idéal pour familles, groupes et bagages."],
-      ["Service VIP Business", "Expérience chauffeur premium pour professionnels, hôtels et événements."],
+      ["Confort électrique", "Dès 29 €", "1 à 4 passagers", "Tesla confortable pour vos trajets privés et professionnels."],
+      ["Van Mercedes", "Dès 39 €", "1 à 7 passagers", "Pour les familles, groupes et voyageurs avec plusieurs bagages."],
+      ["Service VIP", "Sur devis", "Business et événements", "Chauffeur discret, tenue professionnelle et service personnalisé."],
     ],
-    customerTrust: "Confiance client",
-    customerTrustTitle: "Transferts premium avec réponse rapide et un service local fiable.",
-    customerTrustText:
-      "Info directe via WhatsApp, prix fixes, véhicules propres et chauffeurs professionnels.",
-    reviewStats: ["800+ Avis", "9 000+ Courses", "Support 24/7"],
-    reviewsTitle: "Avis clients vérifiés",
-    verifiedCustomer: "Client vérifié",
-    reviews: [
-      ["Patrick D.", "Bruxelles", "Service parfait. Chauffeur ponctuel et très professionnel.", "Mars 2026"],
-      ["Sophie L.", "Waterloo", "Réponse rapide et transfert aéroport fluide.", "Mars 2026"],
-      ["Olivier M.", "Uccle", "Voiture propre, chauffeur poli et excellent confort.", "Février 2026"],
-      ["Bernard T.", "Woluwe-Saint-Pierre", "Service sérieux et communication claire.", "Février 2026"],
+    choose: "Choisir ce véhicule",
+    benefits: [
+      ["Eau offerte", "Une bouteille à bord"], ["Wi-Fi gratuit", "Restez connecté"],
+      ["Chauffeur trilingue", "Français, néerlandais, anglais"], ["Paiement flexible", "Carte, espèces ou facture"],
     ],
-    ctaTitle: "Prêt à partir ?",
-    ctaText:
-      "Réservez maintenant et profitez de transferts en Tesla premium, transport en Van Mercedes et un service professionnel.",
-    ctaCards: [
-      ["Réservation instantanée", "Envoyez vos détails et recevez une confirmation en quelques minutes."],
-      ["Confirmation directe", "Recevez la confirmation de votre réservation sur WhatsApp ou par téléphone."],
-      ["Support 24/7", "Notre équipe est disponible à toute heure pour vous."],
-    ],
-    paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Paiement sécurisé en ligne"],
-    seoTitle: "Taxi Bruxelles, Transfert Aéroport & Service Chauffeur VIP",
-    seoTexts: [
-      "BlackCab Shuttle Bruxelles propose des services de taxi premium à Bruxelles, transferts Aéroport de Bruxelles, Charleroi, Paris, Amsterdam, transport en Tesla et Van Mercedes Vito et service chauffeur privé dans toute la Belgique.",
-      "Réservez votre taxi à Bruxelles facilement via WhatsApp avec des prix fixes, des chauffeurs professionnels et une confirmation rapide. Que vous ayez besoin d'un transfert aéroport, d'un trajet urbain ou d'un voyage longue distance, BlackCab Shuttle garantit confort et fiabilité.",
-      "Nos services incluent Taxi Bruxelles Zaventem, navette aéroport Charleroi, Paris, Amsterdam, service chauffeur VIP et transport en Tesla et Van Mercedes pour groupes et familles.",
-    ],
-    businessTag: "Comptes Business",
-    businessText:
-      "Facturation mensuelle • Réservations prioritaires • Service chauffeur dédié pour entreprises, dirigeants et hôtels.",
-    faqTitle: "FAQ",
+    stepsTitle: "Votre réservation en 3 étapes",
+    steps: [["Indiquez le trajet", "Départ, destination, date et véhicule."], ["Recevez le prix", "Nous confirmons rapidement le tarif fixe."], ["Voyagez sereinement", "Votre chauffeur arrive au lieu convenu."]],
+    ratingTitle: "4,7/5 de satisfaction client",
+    ratingText: "Plus de 800 avis pour un service ponctuel, professionnel et disponible jour et nuit.",
+    faqTitle: "Tout savoir avant de réserver",
     faq: [
-      ["Comment réserver ?", "Envoyez les détails de votre trajet via WhatsApp et nous confirmons disponibilité et prix instantanément."],
-      ["En combien de temps répondez-vous ?", "La plupart des demandes reçoivent une réponse en moins de 2 minutes."],
-      ["Proposez-vous les transferts aéroport ?", "Oui, vers et depuis Brussels Airport, Charleroi et d'autres destinations en Belgique."],
-      ["Peut-on réserver pour business ?", "Oui, comptes business, facturation mensuelle et réservations prioritaires disponibles."],
+      ["Le prix peut-il changer après la réservation ?", "Le prix confirmé reste fixe, sauf modification du trajet ou des conditions demandée par le client."],
+      ["Puis-je réserver très tôt ou la nuit ?", "Oui. Le service fonctionne 24h/24 et 7j/7 sur réservation."],
+      ["Attendez-vous en cas de retard de vol ?", "Oui. Communiquez votre numéro de vol afin que nous puissions suivre l’heure d’arrivée."],
+      ["Comment recevrai-je la confirmation ?", "Votre demande arrive par e-mail. Nous vous confirmons ensuite le véhicule, l’heure et le prix par téléphone ou par e-mail."],
     ],
-    priorityTag: "Réservation prioritaire",
-    priorityTitle: "Besoin d'un chauffeur ?",
-    priorityText:
-      "Envoyez votre itinéraire sur WhatsApp et recevez un devis rapide avec le bon véhicule : Tesla, Van Mercedes ou service chauffeur VIP.",
-    legalTitle: "Mentions légales",
-    legalCompany: "BlackCab Shuttle Bruxelles",
-    legalDesc: "Service premium de taxi, navette Aéroport Bruxelles, Belgique.",
-    legalPlaceholder:
-      "Exploité par SCH Company SRL",
-    legalLinks: ["Politique de confidentialité", "Conditions générales", "Politique cookies"],
-    footerTagline: "Services de taxi et navette premium à Bruxelles et dans toute la Belgique.",
-    footerCols: [
-      {
-        title: "Services",
-        items: ["Transferts Aéroport", "Trajets urbains", "Longue distance", "Business Travel"],
-      },
-      {
-        title: "Société",
-        items: ["À propos", "Notre flotte", "Avis", "Contact"],
-      },
-      {
-        title: "Contact",
-        items: [
-          { label: "+32 490 37 39 03", href: `tel:${PHONE}` },
-          { label: "WhatsApp", href: createWhatsappUrl() },
-          { label: EMAIL, href: `mailto:${EMAIL}` },
-          "Bruxelles, Belgique",
-          "Disponible 24/7",
-        ],
-      },
-    ],
-    copyright: "© 2026 BlackCab Shuttle Bruxelles. Tous droits réservés.",
-    heroPills: ["Prix fixes", "Service 24/7", "Service chauffeur VIP"],
+    coverageTitle: "Prise en charge dans les 19 communes de Bruxelles",
+    coverageText: "À domicile, à l’hôtel, en gare, au bureau ou à l’aéroport.",
+    finalTitle: "Besoin d’un chauffeur ?",
+    finalText: "Appelez-nous ou envoyez votre demande de réservation en ligne.",
   },
-
   nl: {
-    nav: ["Diensten", "Vloot", "Reviews", "FAQ", "Contact"],
-    heroTitle: "Premium Luchthaventransfers in Brussel & Heel België",
-    heroText:
-      "Reis comfortabel met onze Tesla-vloot, Mercedes van-optie en VIP-chauffeursservice. Vaste prijzen, professionele chauffeurs en snelle bevestiging via WhatsApp.",
-    bullets: [
-      "Brussels Airport vanaf €29",
-      "Vertrouwd door 800+ klanten in België",
-      "Veilige betaallink na bevestiging van uw reservatie",
-    ],
-    trustedBy:
-      "Vertrouwd door directeurs, hotels, VIP-klanten en frequente luchthavenbezoekers in Brussel.",
-    googleReview: "4,7/5 op basis van 800+ positieve reviews",
-    quote: "Vraag uw offerte aan",
-    fastReply: "Snelle reactie gegarandeerd",
-    quickTitle: "Populaire routes",
-    quickLocations: ["Brussels Airport", "Charleroi Airport", "Brussel-Zuid", "Stadscentrum"],
-    pickup: "Ophaallocatie",
-    dropoff: "Bestemming",
-    date: "Datum",
-    time: "Tijd",
-    passengers: "Passagiers",
-    luggage: "Bagage",
-    flightNumber: "Vluchtnummer",
-    returnTrip: "Heen en terug",
-    childSeat: "Kinderzitje",
-    vehicle: "Voertuig",
-    specialRequest: "Extra bericht",
-    specialRequestPlaceholder: "Bijv: naamkaartje, PBM…",
-    no: "Nee",
-    yes: "Ja",
-    fieldRequired: "Verplicht veld",
-    request: "Vraag mijn offerte aan",
-    whatsapp: "Versturen via WhatsApp",
-    call: "Bel ons",
-    stats: [
-      ["800+", "Positieve reviews"],
-      ["9.000+", "Ritten uitgevoerd"],
-      ["4,7/5", "Gemiddelde score"],
-      ["24/7", "Beschikbaar"],
-      ["< 2 min", "Reactietijd"],
-    ],
-    whyTitle: "Waarom kiezen voor BlackCab Shuttle?",
-    whyText:
-      "Wij combineren luxe, betrouwbaarheid en premium service voor particuliere en professionele klanten.",
-    why: [
-      ["Tesla Comfort", "Premium zwarte Tesla-voertuigen voor elke rit."],
-      ["Vaste prijzen", "Ken uw exacte prijs vóór u boekt."],
-      ["Professionele chauffeurs", "Vergund, meertalig en discreet."],
-      ["Vluchtopvolging", "Wij volgen uw vlucht en passen ons aan bij vertraging."],
-      ["24/7 Service", "Dag en nacht beschikbaar, 365 dagen per jaar."],
-      ["Deur-tot-deur", "Ophalen en afzetten precies waar u wilt."],
-    ],
-    howTitle: "Hoe werkt het?",
-    how: [
-      ["Geef uw rit door", "Voeg ophaallocatie, bestemming en ritgegevens toe."],
-      ["Ontvang uw offerte", "Wij antwoorden snel met een vaste, all-in prijs."],
-      ["Bevestig en ontspan", "Reserveer via WhatsApp en ontvang directe bevestiging."],
-    ],
-    perfect: "Ideaal voor",
-    perfectItems: [
-      "Luchthavenreizigers",
-      "Zakelijke klanten",
-      "Hotels & VIP-klanten",
-      "Toeristen in België",
-    ],
-    servicesTitle: "Onze Diensten",
-    servicesSub:
-      "Aangepast aan luchthavenreizigers, zakelijke klanten, hotels, VIP-klanten en toeristen in België.",
-    learnMore: "Meer info",
-    services: [
-      ["Luchthaventransfers", "Brussel, Bergen, Amsterdam, Parijs."],
-      ["Stadsritten", "Snelle en comfortabele ritten overal in Brussel."],
-      ["Lange afstand", "Reis door heel België met directe bevestiging."],
-      ["Professionele vervoer", "Executive ritten, maandelijkse facturatie en prioritaire service."],
-    ],
-    fleetTitle: "Onze Vloot",
-    fleetSub: "Kies het juiste voertuig voor uw rit.",
-    fleet: [
-      ["Tesla Premium", "1–4 passagiers. Ideaal voor premium luchthaventransfers."],
-      ["Mercedes Vito Van", "Tot 8 passagiers. Ideaal voor families, groepen en extra bagages."],
-      ["VIP Business Service", "Premium chauffeursbeleving voor professionele klanten, hotels en evenementen."],
-    ],
-    customerTrust: "Klantvertrouwen",
-    customerTrustTitle: "Premium transfers met snelle anwoord en echte lokale service.",
-    customerTrustText:
-      "Directe WhatsApp-communicatie, vaste prijzen, schone voertuigen en professionele chauffeurs.",
-    reviewStats: ["800+ Reviews", "9.000+ Ritten", "24/7 Support"],
-    reviewsTitle: "Geverifieerde klantbeoordelingen",
-    verifiedCustomer: "Geverifieerde klant",
-    reviews: [
-      ["Patrick D.", "Brussel", "Perfecte service. Chauffeur was stipt en zeer professioneel.", "Maart 2026"],
-      ["Sophie L.", "Waterloo", "Snelle reactie, eenvoudige boeking en vlotte luchthaventransfer.", "Maart 2026"],
-      ["Olivier M.", "Ukkel", "Propere wagen, beleefde chauffeur en uitstekend comfort.", "Februari 2026"],
-      ["Bernard T.", "Sint-Pieters-Woluwe", "Ernstige service en duidelijke communicatie.", "Februari 2026"],
-    ],
-    ctaTitle: "Klaar om te vertrekken?",
-    ctaText:
-      "Reserveer nu een premium Tesla-transfers, Mercedes Van en VIP-chauffeursservice in België.",
-    ctaCards: [
-      ["Directe boeking", "Stuur uw gegevens en ontvang bevestiging binnen enkele minuten."],
-      ["Directe bevestiging", "Ontvang uw boekingsbevestiging via WhatsApp."],
-      ["24/7 Support", "Ons team staat dag en nacht voor u klaar."],
-    ],
-    paymentMethods: ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Veilige online betaling"],
-    seoTitle: "Taxi Brussel, Luchthaventransfer & VIP Chauffeursservice",
-    seoTexts: [
-      "BlackCab Shuttle Brussel biedt premium taxidiensten in Brussel, Bergen, Parijs, Amsterdam, Mercedes Vito van-vervoer en VIP-chauffeursservice door heel België ook.",
-      "Boek uw taxi in België eenvoudig via WhatsApp met vaste prijzen, professionele chauffeurs en snelle bevestiging. Of u nu een luchthaventransfer, een stadsrit of een lange afstand nodig heeft, BlackCab Shuttle garandeert comfort en betrouwbaarheid.",
-      "Onze diensten omvatten Taxi Zaventem, Luchthaven shuttle Brussel, privéchauffeur Brussel, VIP-chauffeursservice en Mercedes van-vervoer voor groepen en families.",
-    ],
-    businessTag: "Business Accounts",
-    businessText:
-      "Maandelijkse facturatie • Prioritaire boekingen • Dedicated chauffeursservice voor bedrijven, directieleden en hotels.",
-    faqTitle: "Veelgestelde vragen",
-    faq: [
-      ["Hoe reserveer ik?", "Stuur uw ritgegevens via WhatsApp en wij bevestigen snel beschikbaarheid en prijs."],
-      ["Hoe snel antwoorden jullie?", "De meeste aanvragen krijgen een antwoord binnen 2 minuten."],
-      ["Bieden jullie luchthaventransfers aan?", "Ja, van en naar Brussels Airport, Charleroi en andere Belgische bestemmingen."],
-      ["Kan ik professionele vervoer boeken?", "Ja, wij bieden business accounts, maandelijkse facturatie en prioritaire boekingen."],
-    ],
-    priorityTag: "Prioritaire boeking",
-    priorityTitle: "Vandaag een chauffeur nodig?",
-    priorityText:
-      "Stuur uw reisplan via WhatsApp en ontvang snel een offerte met het juiste voertuig: Tesla, Mercedes van of VIP-chauffeursservice.",
-    legalTitle: "Juridische informatie",
-    legalCompany: "BlackCab Shuttle Brussel",
-    legalDesc: "Premium taxi-, shuttle- en chauffeursservice in Brussel, België.",
-    legalPlaceholder:
-      "Uitgebaat door SCH Company SRL",
-    legalLinks: ["Privacybeleid", "Algemene voorwaarden", "Cookiebeleid"],
-    footerTagline: "Premium taxi- en shuttlediensten in Brussel en heel België.",
-    footerCols: [
-      {
-        title: "Diensten",
-        items: ["Luchthaventransfers", "Stadsritten", "Lange afstand", "Business vervoer"],
-      },
-      {
-        title: "Bedrijf",
-        items: ["Over ons", "Onze vloot", "Reviews", "Contact"],
-      },
-      {
-        title: "Contact",
-        items: [
-          { label: "+32 490 37 39 03", href: `tel:${PHONE}` },
-          { label: "WhatsApp", href: createWhatsappUrl() },
-          { label: EMAIL, href: `mailto:${EMAIL}` },
-          "Brussel, België",
-          "24/7 Beschikbaar",
-        ],
-      },
-    ],
-    copyright: "© 2026 BlackCab Shuttle Brussel. Alle rechten voorbehouden.",
-    heroPills: ["Vaste prijzen", "24/7 service", "VIP-chauffeursservice"],
+    top: "Taxi 24/7 · Brussel en luchthavens", nav: ["Tarieven", "Voertuigen", "Voordelen", "FAQ"], book: "Boeken", call: "Bellen",
+    eyebrow: "Premium taxi in Brussel", title: "Uw transfer met chauffeur, tegen de afgesproken prijs.",
+    lead: "Boek in enkele ogenblikken. Een stipte chauffeur, een vaste prijs zonder commissie en ophalen in heel Brussel.",
+    trust: ["Zaventem vanaf €29", "Geen commissie", "Chauffeur FR · NL · EN"],
+    formTitle: "Boek uw rit", formSub: "Uw aanvraag wordt rechtstreeks per e-mail verzonden.",
+    fields: { from: "Vertrek / ophaalplaats", fromPh: "Adres, hotel of station", to: "Bestemming", toPh: "Luchthaven of adres", date: "Datum", time: "Tijd", passengers: "Passagiers", vehicle: "Voertuig", name: "Naam", namePh: "Uw naam", phone: "Telefoon", phonePh: "Uw nummer", email: "E-mail", emailPh: "Voor de bevestiging", details: "Vlucht, bagage of verzoek", detailsPh: "Vluchtnummer, bagage, kinderzitje…" },
+    vehicles: ["Elektrisch comfort", "Mercedes Van", "VIP-service"], consent: "Ik ga ermee akkoord dat mijn gegevens voor deze reservatie worden gebruikt.",
+    send: "Mijn aanvraag verzenden", sending: "Verzenden…", success: "Aanvraag verzonden. Wij antwoorden snel per telefoon of e-mail.", error: "Verzenden mislukt. Bel ons op 02 886 21 40.", secure: "Geen onmiddellijke betaling. De prijs wordt vóór de rit bevestigd.",
+    faresEyebrow: "Afgesproken prijzen", faresTitle: "Meest gevraagde ritten", faresSub: "De exacte prijs wordt vóór uw rit bevestigd, zonder commissie.",
+    fares: [["Brussel ↔ Zaventem", "Vanaf €29", "Vluchtmonitoring en ophalen op het opgegeven adres."], ["Brussel ↔ Charleroi", "Vanaf €79", "Rechtstreekse transfer naar Brussels South Charleroi Airport."]],
+    fleetEyebrow: "Onze vloot", fleetTitle: "Het juiste voertuig voor elke rit",
+    fleet: [["Elektrisch comfort", "Vanaf €29", "1 tot 4 passagiers", "Comfortabele Tesla voor privé- en zakenritten."], ["Mercedes Van", "Vanaf €39", "1 tot 7 passagiers", "Voor gezinnen, groepen en reizigers met meerdere koffers."], ["VIP-service", "Op aanvraag", "Business en evenementen", "Discrete chauffeur en persoonlijke service."]], choose: "Kies dit voertuig",
+    benefits: [["Gratis water", "Een fles aan boord"], ["Gratis wifi", "Blijf verbonden"], ["Drietalige chauffeur", "Frans, Nederlands, Engels"], ["Flexibel betalen", "Kaart, cash of factuur"]],
+    stepsTitle: "Uw reservatie in 3 stappen", steps: [["Vul de rit in", "Vertrek, bestemming, datum en voertuig."], ["Ontvang de prijs", "Wij bevestigen snel het vaste tarief."], ["Reis gerust", "Uw chauffeur komt op de afgesproken plaats."]],
+    ratingTitle: "4,7/5 klanttevredenheid", ratingText: "Meer dan 800 beoordelingen voor een stipte en professionele service, dag en nacht.", faqTitle: "Alles voor u boekt",
+    faq: [["Kan de prijs veranderen?", "De bevestigde prijs blijft vast, behalve bij een wijziging door de klant."], ["Kan ik ’s nachts boeken?", "Ja. De service is 24/7 beschikbaar op reservatie."], ["Wacht u bij vluchtvertraging?", "Ja. Geef uw vluchtnummer door zodat we de aankomst kunnen volgen."], ["Hoe ontvang ik de bevestiging?", "Uw aanvraag komt per e-mail binnen. Wij bevestigen daarna per telefoon of e-mail."]],
+    coverageTitle: "Ophalen in de 19 gemeenten van Brussel", coverageText: "Thuis, aan het hotel, station, kantoor of de luchthaven.", finalTitle: "Een chauffeur nodig?", finalText: "Bel ons of stuur uw reservatie online.",
+  },
+  en: {
+    top: "Taxi 24/7 · Brussels and airports", nav: ["Fares", "Vehicles", "Benefits", "FAQ"], book: "Book", call: "Call",
+    eyebrow: "Premium taxi in Brussels", title: "Your chauffeured transfer, at the agreed price.",
+    lead: "Book in moments. A punctual driver, a fixed fare with no commission and pickup anywhere in Brussels.",
+    trust: ["Zaventem from €29", "No commission", "Driver FR · NL · EN"], formTitle: "Book your journey", formSub: "Your request is sent directly by email.",
+    fields: { from: "Pickup", fromPh: "Address, hotel or station", to: "Destination", toPh: "Airport or address", date: "Date", time: "Time", passengers: "Passengers", vehicle: "Vehicle", name: "Name", namePh: "Your name", phone: "Phone", phonePh: "Your number", email: "Email", emailPh: "For your confirmation", details: "Flight, luggage or special request", detailsPh: "Flight number, luggage, child seat…" },
+    vehicles: ["Electric comfort", "Mercedes Van", "VIP service"], consent: "I agree that my data may be used to process this booking.", send: "Send my request", sending: "Sending…", success: "Request sent. We will reply quickly by phone or email.", error: "Sending failed. Call us on 02 886 21 40.", secure: "No immediate payment. The fare is confirmed before the ride.",
+    faresEyebrow: "Agreed fares", faresTitle: "Most popular journeys", faresSub: "The exact fare is confirmed before your ride, with no commission.", fares: [["Brussels ↔ Zaventem", "From €29", "Flight monitoring and pickup at your chosen address."], ["Brussels ↔ Charleroi", "From €79", "Direct transfer to Brussels South Charleroi Airport."]],
+    fleetEyebrow: "Our fleet", fleetTitle: "The right vehicle for every journey", fleet: [["Electric comfort", "From €29", "1 to 4 passengers", "Comfortable Tesla for private and business travel."], ["Mercedes Van", "From €39", "1 to 7 passengers", "For families, groups and travellers with several bags."], ["VIP service", "On request", "Business and events", "Discreet chauffeur and personalised service."]], choose: "Choose this vehicle",
+    benefits: [["Complimentary water", "A bottle on board"], ["Free Wi-Fi", "Stay connected"], ["Trilingual driver", "French, Dutch, English"], ["Flexible payment", "Card, cash or invoice"]],
+    stepsTitle: "Your booking in 3 steps", steps: [["Enter your journey", "Pickup, destination, date and vehicle."], ["Receive the fare", "We quickly confirm the fixed price."], ["Travel with confidence", "Your driver arrives at the agreed location."]],
+    ratingTitle: "4.7/5 customer satisfaction", ratingText: "More than 800 reviews for punctual, professional service available day and night.", faqTitle: "Everything before you book", faq: [["Can the price change?", "The confirmed price remains fixed unless the customer changes the journey."], ["Can I book at night?", "Yes. The service operates 24/7 by reservation."], ["Do you wait after a flight delay?", "Yes. Send your flight number so we can monitor the arrival time."], ["How do I receive confirmation?", "Your request arrives by email. We then confirm by phone or email."]],
+    coverageTitle: "Pickup in all 19 Brussels municipalities", coverageText: "At home, your hotel, station, office or the airport.", finalTitle: "Need a chauffeur?", finalText: "Call us or send your booking request online.",
   },
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// REUSABLE COMPONENTS
-// ─────────────────────────────────────────────────────────────────────────────
+const communes = ["Bruxelles-Ville", "Anderlecht", "Auderghem", "Berchem-Sainte-Agathe", "Etterbeek", "Evere", "Forest", "Ganshoren", "Ixelles", "Jette", "Koekelberg", "Molenbeek", "Saint-Gilles", "Saint-Josse", "Schaerbeek", "Uccle", "Watermael-Boitsfort", "Woluwe-Saint-Lambert", "Woluwe-Saint-Pierre"];
+const fleetImages = ["/images/3.jpg", "/images/7.jpg", "/images/11.jpg"];
+const benefitIcons = [Droplets, Wifi, Earth, CreditCard];
 
-function JsonLd({ data }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+function LanguageLinks({ lang }) {
+  return <div className="language-switcher" aria-label="Langue">
+    {[['fr', '/'], ['nl', '/nl'], ['en', '/en']].map(([code, href]) => <a key={code} href={href} hrefLang={code === 'en' ? 'en-BE' : `${code}-BE`} className={lang === code ? 'active' : ''}>{code.toUpperCase()}</a>)}
+  </div>;
 }
 
-function SectionTitle({ children, eyebrow }) {
-  return (
-    <div>
-      {eyebrow && (
-        <div className="mb-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#d6a85c]">
-          {eyebrow}
-        </div>
-      )}
-      <h2 className="text-3xl font-black tracking-tight md:text-5xl">
-        {children}
-      </h2>
+function BookingForm({ lang, t }) {
+  const [state, setState] = useState("idle");
+  const [vehicle, setVehicle] = useState(t.vehicles[0]);
+
+  const submit = async (event) => {
+    event.preventDefault();
+    setState("sending");
+    const form = event.currentTarget;
+    const data = Object.fromEntries(new FormData(form));
+    try {
+      const response = await fetch("/api/reservation", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!response.ok) throw new Error("send_failed");
+      form.reset();
+      setVehicle(t.vehicles[0]);
+      setState("success");
+    } catch {
+      setState("error");
+    }
+  };
+
+  const f = t.fields;
+  return <form id="reservation" className="booking-card" onSubmit={submit}>
+    <input type="hidden" name="locale" value={lang} />
+    <label className="honeypot" aria-hidden="true">Company<input name="company" tabIndex="-1" autoComplete="off" /></label>
+    <div className="booking-heading"><span><CalendarDays /></span><div><h2>{t.formTitle}</h2><p>{t.formSub}</p></div></div>
+    <div className="form-grid">
+      <label className="wide"><b>{f.from}</b><input required name="from" autoComplete="street-address" placeholder={f.fromPh} /></label>
+      <label className="wide"><b>{f.to}</b><input required name="to" placeholder={f.toPh} /></label>
+      <label><b>{f.date}</b><input required name="date" type="date" /></label>
+      <label><b>{f.time}</b><input required name="time" type="time" /></label>
+      <label><b>{f.passengers}</b><select name="passengers" defaultValue="1">{[1,2,3,4,5,6,7].map(n => <option key={n}>{n}</option>)}</select></label>
+      <label><b>{f.vehicle}</b><select name="vehicle" value={vehicle} onChange={e => setVehicle(e.target.value)}>{t.vehicles.map(v => <option key={v}>{v}</option>)}</select></label>
+      <label><b>{f.name}</b><input required name="name" autoComplete="name" placeholder={f.namePh} /></label>
+      <label><b>{f.phone}</b><input required name="phone" type="tel" autoComplete="tel" placeholder={f.phonePh} /></label>
+      <label className="wide"><b>{f.email}</b><input name="email" type="email" autoComplete="email" placeholder={f.emailPh} /></label>
+      <label className="wide"><b>{f.details}</b><textarea name="details" rows="2" placeholder={f.detailsPh} /></label>
     </div>
-  );
+    <label className="consent"><input required type="checkbox" name="consent" value="yes" /><span>{t.consent} <a href="/confidentialite">Confidentialité</a></span></label>
+    <button className="submit-button" disabled={state === "sending"}>{state === "sending" ? t.sending : t.send}<ArrowRight /></button>
+    <p className="secure"><ShieldCheck />{t.secure}</p>
+    {state === "success" && <p className="form-message success" role="status">{t.success}</p>}
+    {state === "error" && <p className="form-message error" role="alert">{t.error}</p>}
+  </form>;
 }
 
-function MediaFrame({ src, alt, height = "h-56", priority = false }) {
-  return (
-    <div
-      className={`group relative w-full overflow-hidden rounded-[26px] border border-[#3b3022] bg-[#0b0b0b] shadow-2xl ${height}`}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        priority={priority}
-        sizes="(max-width: 768px) 100vw, 50vw"
-        quality={90}
-        className="object-cover transition duration-700 group-hover:scale-110"
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
-    </div>
-  );
-}
-
-function Button({ href, children, dark = false, onClick, hideArrow = false }) {
-  return (
-    <a
-      href={href}
-      onClick={onClick}
-      className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition ${
-        dark
-          ? "border border-white/15 bg-white/5 text-white hover:bg-white/10"
-          : "bg-[#d6a85c] text-black hover:brightness-110"
-      }`}
-    >
-      {children}
-      {!hideArrow && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
-    </a>
-  );
-}
-
-// Input with proper type support for date/time and validation state
-function Input({ label, value, setValue, placeholder = "", icon, type = "text", required = false, error = false, min, max }) {
-  return (
-    <label className="block">
-      <span className="mb-2 block text-sm font-bold text-white/75">
-        {label}
-        {required && <span className="ml-1 text-[#d6a85c]">*</span>}
-      </span>
-      <div className="relative">
-        {icon && (
-          <span className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#d6a85c]" aria-hidden="true">
-            {icon}
-          </span>
-        )}
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder={placeholder}
-          min={min}
-          max={max}
-          required={required}
-          aria-invalid={Boolean(error)}
-          className={`w-full rounded-2xl border py-4 text-white outline-none placeholder:text-white/35 focus:border-[#d6a85c] bg-white/[0.04] ${
-            error ? "border-red-500" : "border-white/10"
-          } ${icon ? "pl-10 pr-4" : "px-4"}`}
-        />
-      </div>
-      {error && (
-        <span className="mt-1 block text-xs text-red-400" role="alert">{error}</span>
-      )}
-    </label>
-  );
-}
-
-function SelectInput({ label, value, setValue, options, ariaLabel }) {
-  return (
-    <label className="block">
-      <span className="mb-2 block text-sm font-bold text-white/75">{label}</span>
-      <select
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        aria-label={ariaLabel || label}
-        className="w-full rounded-2xl border border-white/10 bg-[#171717] px-4 py-4 text-white outline-none focus:border-[#d6a85c]"
-      >
-        {options.map(([val, display]) => (
-          <option key={val} value={val}>
-            {display}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-function Card({ children }) {
-  return (
-    <div className="rounded-[24px] border border-white/10 bg-[#0d0d0d] p-5 shadow-2xl transition duration-300 hover:-translate-y-1 hover:border-[#d6a85c]/40 hover:bg-[#111111]">
-      {children}
-    </div>
-  );
-}
-
-function ImageCard({ img, title, desc, height = "h-52", learnMoreLabel }) {
-  return (
-    <div className="overflow-hidden rounded-[26px] border border-white/10 bg-[#0d0d0d] shadow-2xl transition duration-300 hover:-translate-y-1 hover:border-[#d6a85c]/40">
-      <div className="relative">
-        <MediaFrame src={img} alt={title} height={height} />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 to-transparent p-5">
-          <h3 className="text-2xl font-black">{title}</h3>
-        </div>
-      </div>
-      <div className="p-5">
-        <p className="min-h-[70px] leading-7 text-white/60">{desc}</p>
-        <a
-          href={createWhatsappUrl(`Bonjour, je souhaite plus d'informations sur : ${title}.`)}
-          className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#d6a85c] hover:brightness-110 transition"
-        >
-          {learnMoreLabel}
-          <ArrowRight className="h-4 w-4" />
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function FooterCol({ title, items }) {
-  return (
-    <div>
-      <div className="mb-4 text-sm font-bold uppercase tracking-[0.25em] text-white/45">
-        {title}
-      </div>
-      <div className="space-y-3 text-sm text-white/65">
-        {items.map((item) => {
-          if (typeof item === "object" && item.href) {
-            return (
-              <div key={item.label}>
-                <a href={item.href} className="hover:text-[#d6a85c] transition">
-                  {item.label}
-                </a>
-              </div>
-            );
-          }
-          return <div key={item}>{item}</div>;
-        })}
-      </div>
-    </div>
-  );
-}
-
-// Language button with proper aria-label
-function LangButton({ code, current, label }) {
-  const href = code === "fr" ? "/" : `/${code}`;
-  return (
-    <a
-      href={href}
-      hrefLang={code === "en" ? "en-GB" : `${code}-BE`}
-      aria-label={label}
-      aria-current={current === code ? "page" : undefined}
-      className={`text-sm font-bold transition ${
-        current === code ? "text-[#d6a85c]" : "text-white/60 hover:text-white"
-      }`}
-    >
-      {code.toUpperCase()}
-    </a>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ICON MAPS — defined outside component to avoid recreation on every render
-// ─────────────────────────────────────────────────────────────────────────────
-const WHY_ICONS = [Shield, CircleDollarSign, Users, CarFront, Clock3, MapPin];
-const STAT_ICONS = [Star, CarFront, BadgeCheck, Clock3, MessageCircle];
-const PERFECT_ICONS = [CarFront, Briefcase, Hotel, Building2];
-const CTA_ICONS = [Zap, CalendarCheck, Headphones];
-
-// ─────────────────────────────────────────────────────────────────────────────
-// MAIN PAGE
-// ─────────────────────────────────────────────────────────────────────────────
 export function HomePage({ initialLang = "fr" }) {
-  const [lang] = useState(initialLang);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const lang = initialLang;
+  const t = copy[lang];
+  const [menu, setMenu] = useState(false);
+  useEffect(() => { document.documentElement.lang = lang === "en" ? "en-BE" : `${lang}-BE`; }, [lang]);
 
-  useEffect(() => {
-    document.documentElement.lang = lang === "en" ? "en-GB" : `${lang}-BE`;
-  }, [lang]);
-
-  // Form state
-  const [pickup, setPickup] = useState("");
-  const [dropoff, setDropoff] = useState("");
-  const [passengers, setPassengers] = useState("1");
-  const [luggage, setLuggage] = useState("1");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [flightNumber, setFlightNumber] = useState("");
-  const [returnTrip, setReturnTrip] = useState("no");
-  const [childSeat, setChildSeat] = useState("no");
-  const [vehicleChoice, setVehicleChoice] = useState("auto");
-  const [specialRequest, setSpecialRequest] = useState("");
-
-  // Form validation
-  const [formErrors, setFormErrors] = useState({});
-
-  const t = content[lang];
-  const navIds = ["services", "fleet", "reviews", "faq", "contact"];
-  const faqSchema = useMemo(
-    () => ({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: t.faq.map(([question, answer]) => ({
-        "@type": "Question",
-        name: question,
-        acceptedAnswer: { "@type": "Answer", text: answer },
-      })),
-    }),
-    [t]
-  );
-
-  // ── Localised select options ───────────────────────────────────────────────
-  const yesNoOptions = useMemo(
-    () => [
-      ["no", t.no],
-      ["yes", t.yes],
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "TaxiService",
+    name: "BlackCab Shuttle Brussels",
+    legalName: "SCH Company SRL",
+    url: "https://blackcab-shuttle.com",
+    telephone: PHONE_LINK,
+    email: CONTACT_EMAIL,
+    image: "https://blackcab-shuttle.com/images/1.jpg",
+    priceRange: "€€",
+    areaServed: [
+      { "@type": "City", name: "Bruxelles" },
+      { "@type": "Airport", name: "Brussels Airport", iataCode: "BRU" },
+      { "@type": "Airport", name: "Brussels South Charleroi Airport", iataCode: "CRL" },
     ],
-    [t]
-  );
-
-  const vehicleOptions = useMemo(
-    () => [
-      ["auto", lang === "fr" ? "Selon disponibilité" : lang === "nl" ? "Automatisch" : "Best available"],
-      ["tesla", "Tesla Premium"],
-      ["mercedes", "Mercedes Vito Van"],
-      ["vip", "VIP"],
+    availableLanguage: ["fr", "nl", "en"],
+    openingHours: "Mo-Su 00:00-23:59",
+    offers: [
+      { "@type": "Offer", name: "Transfert Bruxelles Zaventem", priceCurrency: "EUR", price: "29" },
+      { "@type": "Offer", name: "Transfert Bruxelles Charleroi", priceCurrency: "EUR", price: "79" },
     ],
-    [lang]
-  );
-
-  // ── WhatsApp message builder ───────────────────────────────────────────────
-  const waMessage = useMemo(() => {
-    const suggestedVehicle =
-      Number(passengers) > 4 ? "Mercedes Vito Van" : "Tesla Premium";
-    const returnLabel = returnTrip === "yes" ? t.yes : t.no;
-    const childSeatLabel = childSeat === "yes" ? t.yes : t.no;
-
-    return encodeURIComponent(
-      `${lang === "fr" ? "Demande de réservation" : lang === "nl" ? "Reservatieaanvraag" : "Booking request"} - BlackCab Shuttle
-${t.pickup}: ${pickup || "-"}
-${t.dropoff}: ${dropoff || "-"}
-${t.passengers}: ${passengers}
-${t.luggage}: ${luggage}
-${t.date}: ${date || "-"}
-${t.time}: ${time || "-"}
-${t.flightNumber}: ${flightNumber || "-"}
-${t.returnTrip}: ${returnLabel}
-${t.childSeat}: ${childSeatLabel}
-${t.vehicle}: ${vehicleChoice}
-${lang === "fr" ? "Véhicule conseillé" : lang === "nl" ? "Voorgesteld voertuig" : "Suggested vehicle"}: ${suggestedVehicle}
-${t.specialRequest}: ${specialRequest || "-"}`
-    );
-  }, [
-    pickup, dropoff, passengers, luggage, date, time,
-    flightNumber, returnTrip, childSeat, vehicleChoice, specialRequest, t, lang,
-  ]);
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP}?text=${waMessage}`;
-
-  // ── Conversion tracking ────────────────────────────────────────────────────
-  const trackConversion = useCallback((type) => {
-    if (typeof window !== "undefined") {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "blackcab_conversion", type });
-      if (window.gtag) {
-        window.gtag("event", type, { event_category: "conversion" });
-      }
-    }
-  }, []);
-
-  // ── Form validation before WhatsApp send ──────────────────────────────────
-  const handleQuoteSubmit = (e) => {
-    const errors = {};
-    if (!pickup.trim()) errors.pickup = t.fieldRequired;
-    if (!dropoff.trim()) errors.dropoff = t.fieldRequired;
-    if (!date) errors.date = t.fieldRequired;
-    if (!time) errors.time = t.fieldRequired;
-    if (Object.keys(errors).length > 0) {
-      e.preventDefault();
-      setFormErrors(errors);
-      return;
-    }
-    setFormErrors({});
-    trackConversion("whatsapp_quote_click");
   };
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: t.faq.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) };
 
-  const handleQuickLocation = (location) => {
-    if (!pickup.trim()) {
-      setPickup(location);
-      return;
-    }
-    if (!dropoff.trim()) {
-      setDropoff(location);
-      return;
-    }
-    setDropoff(location);
-  };
+  const navIds = ["tarifs", "vehicules", "avantages", "faq"];
+  return <main className="site-shell">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    <div className="top-line"><span><Clock3 />{t.top}</span><a href={`tel:${PHONE_LINK}`}><Phone />{PHONE_DISPLAY}</a></div>
+    <header className="site-header">
+      <a className="brand" href={lang === "fr" ? "/" : `/${lang}`} aria-label="BlackCab Shuttle"><span className="brand-mark"><CarFront /></span><span><strong>BLACKCAB</strong><small>Shuttle Brussels</small></span></a>
+      <nav className="desktop-nav">{t.nav.map((item, i) => <a key={item} href={`#${navIds[i]}`}>{item}</a>)}</nav>
+      <div className="header-actions"><LanguageLinks lang={lang} /><a className="header-book" href="#reservation">{t.book}</a><button className="menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-label="Menu">{menu ? <X /> : <Menu />}</button></div>
+      {menu && <nav className="mobile-nav"><a className="mobile-book" href="#reservation" onClick={() => setMenu(false)}>{t.book}</a>{t.nav.map((item, i) => <a key={item} href={`#${navIds[i]}`} onClick={() => setMenu(false)}>{item}</a>)}</nav>}
+    </header>
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // RENDER
-  // ─────────────────────────────────────────────────────────────────────────
-  return (
-    <main className="min-h-screen bg-[#030303] pb-24 text-white md:pb-0">
-      <JsonLd data={businessSchema} />
-      <JsonLd data={faqSchema} />
-      <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-8">
-
-        {/* ── HEADER ──────────────────────────────────────────────────────── */}
-        <header className="sticky top-3 z-50 mb-4 rounded-[24px] border border-white/10 bg-black/70 px-5 py-4 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between gap-4">
-            <a href="#hero" className="leading-none">
-              <div className="text-2xl font-black tracking-tight md:text-3xl">BLACKCAB</div>
-              <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#d6a85c]">
-                Shuttle Brussels
-              </div>
-            </a>
-
-            <nav className="hidden items-center gap-7 text-sm text-white/75 lg:flex">
-              <a href="#reservation" className="font-bold text-[#d6a85c] transition hover:text-white">
-                {lang === "fr" ? "Réserver" : lang === "nl" ? "Boeken" : "Book"}
-              </a>
-              {t.nav.map((item, index) => (
-                <a
-                  key={item}
-                  href={`#${navIds[index]}`}
-                  className="hover:text-[#d6a85c] transition"
-                >
-                  {item}
-                </a>
-              ))}
-            </nav>
-
-            <div className="hidden items-center gap-3 md:flex">
-              <div className="flex items-center gap-2" role="group" aria-label="Language selector">
-                <LangButton code="fr" current={lang} label="Français" />
-                <LangButton code="nl" current={lang} label="Nederlands" />
-                <LangButton code="en" current={lang} label="English" />
-                <ChevronDown className="h-4 w-4 text-white/40" aria-hidden="true" />
-              </div>
-              <a
-                href={`tel:${PHONE}`}
-                className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition"
-                aria-label={`Call us at ${PHONE}`}
-              >
-                <Phone className="h-4 w-4 text-[#d6a85c]" aria-hidden="true" />
-                +32 490 37 39 03
-              </a>
-              <Button href={whatsappUrl} onClick={() => trackConversion("header_whatsapp_click")}>
-                {t.whatsapp}
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2 lg:hidden">
-              <a
-                href={`tel:${PHONE}`}
-                onClick={() => trackConversion("mobile_header_call_click")}
-                className="grid h-11 w-11 place-items-center rounded-full bg-white text-black"
-                aria-label={t.call}
-              >
-                <Phone className="h-5 w-5" aria-hidden="true" />
-              </a>
-              <button
-                className="rounded-full border border-white/10 p-3"
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label={menuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={menuOpen}
-              >
-                {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
-            </div>
-          </div>
-
-          {menuOpen && (
-            <div className="mt-4 grid gap-2 rounded-2xl border border-white/10 bg-[#0b0b0b] p-3 lg:hidden">
-              <a
-                href="#reservation"
-                onClick={() => setMenuOpen(false)}
-                className="rounded-xl bg-[#d6a85c] px-4 py-3 font-black text-black"
-              >
-                {lang === "fr" ? "Réserver" : lang === "nl" ? "Boeken" : "Book"}
-              </a>
-              {t.nav.map((item, index) => (
-                <a
-                  key={item}
-                  href={`#${navIds[index]}`}
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 text-white/80 hover:bg-white/5 transition"
-                >
-                  {item}
-                </a>
-              ))}
-              <div
-                className="flex gap-4 px-4 py-2"
-                role="group"
-                aria-label="Language selector"
-              >
-                <LangButton code="fr" current={lang} label="Français" />
-                <LangButton code="nl" current={lang} label="Nederlands" />
-                <LangButton code="en" current={lang} label="English" />
-              </div>
-            </div>
-          )}
-        </header>
-
-        {/* ── HERO ────────────────────────────────────────────────────────── */}
-        <section
-          id="hero"
-          className="relative overflow-hidden rounded-[34px] border border-[#3b3022] bg-black shadow-2xl"
-        >
-          <Image
-            src={images.hero}
-            alt="BlackCab Shuttle premium airport transfer Brussels"
-            fill
-            priority
-            sizes="100vw"
-            quality={90}
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.76)_42%,rgba(0,0,0,0.30)_100%)] backdrop-blur-[1px]" />
-
-          <div className="relative z-10 grid gap-8 p-5 md:p-10 xl:grid-cols-[0.8fr_1.2fr] xl:items-start">
-            {/* Left column */}
-            <div className="order-2 flex flex-col justify-center xl:min-h-[650px]">
-              <div className="mb-6 flex flex-wrap gap-3">
-                {t.heroPills.map((pill) => (
-                  <span
-                    key={pill}
-                    className="rounded-full border border-[#6b5431] bg-black/55 px-4 py-2 text-sm font-bold text-[#d6a85c]"
-                  >
-                    {pill}
-                  </span>
-                ))}
-              </div>
-
-              <h1 className="max-w-4xl text-4xl font-black leading-[1.03] tracking-tight md:text-7xl">
-                {t.heroTitle}
-              </h1>
-
-              <p className="mt-4 max-w-2xl text-base leading-7 text-white/78 md:mt-5 md:text-lg md:leading-8">
-                {t.heroText}
-              </p>
-
-              <div className="mt-7 space-y-3">
-                {t.bullets.map((b) => (
-                  <div
-                    key={b}
-                    className="flex items-center gap-3 text-lg font-semibold text-white/90"
-                  >
-                    <Check className="h-5 w-5 shrink-0 rounded-full bg-[#d6a85c] p-0.5 text-black" aria-hidden="true" />
-                    {b}
-                  </div>
-                ))}
-              </div>
-                  <div className="mt-8 inline-flex w-fit items-center gap-3 rounded-full border border-[#6b5431] bg-black/70 px-5 py-3">
-                <span
-                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white font-black text-black"
-                  aria-hidden="true"
-                >
-                  G
-                </span>
-                <strong>{t.googleReview}</strong>
-                <span className="flex text-[#d6a85c]" aria-label="5 stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" aria-hidden="true" />
-                  ))}
-                </span>
-              </div>
-            </div>
-
-            {/* Right column — Quote form */}
-            <div id="reservation" className="order-1 scroll-mt-28 rounded-[28px] border border-[#6b5431] bg-[#111]/95 p-4 shadow-2xl backdrop-blur-md md:p-6">
-              <div className="mb-5 flex items-center justify-between gap-4">
-                <h2 className="text-2xl font-black md:text-3xl">{t.quote}</h2>
-                <span className="text-xs font-bold text-[#d6a85c]">{t.fastReply}</span>
-              </div>
-
-              <div className="mb-4 md:hidden">
-                <div className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-white/45">
-                  {t.quickTitle}
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {t.quickLocations.map((location) => (
-                    <button
-                      key={location}
-                      type="button"
-                      onClick={() => handleQuickLocation(location)}
-                      className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-3 text-left text-xs font-bold text-white/80 transition hover:border-[#d6a85c]/60 hover:text-[#d6a85c]"
-                    >
-                      {location}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-3 md:gap-4">
-                <Input
-                  label={t.pickup}
-                  value={pickup}
-                  setValue={setPickup}
-                  icon={<MapPin />}
-                  placeholder={t.pickup}
-                  required
-                  error={formErrors.pickup}
-                />
-                <Input
-                  label={t.dropoff}
-                  value={dropoff}
-                  setValue={setDropoff}
-                  icon={<MapPin />}
-                  placeholder={t.dropoff}
-                  required
-                  error={formErrors.dropoff}
-                />
-
-                <div className="grid grid-cols-2 gap-3">
-                  <Input
-                    label={t.date}
-                    value={date}
-                    setValue={setDate}
-                    type="date"
-                    required
-                    error={formErrors.date}
-                  />
-                  <Input
-                    label={t.time}
-                    value={time}
-                    setValue={setTime}
-                    type="time"
-                    required
-                    error={formErrors.time}
-                  />
-                </div>
-
-                <div className="grid gap-3">
-                  <Input
-                    label={t.passengers}
-                    value={passengers}
-                    setValue={setPassengers}
-                    icon={<Users />}
-                    type="number"
-                    min="1"
-                    max="8"
-                  />
-                </div>
-
-                <details className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <summary className="cursor-pointer text-sm font-bold text-[#d6a85c]">
-                    {lang === "fr" ? "Ajouter les détails du trajet" : lang === "nl" ? "Ritdetails toevoegen" : "Add trip details"}
-                  </summary>
-                  <div className="mt-4 grid gap-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <Input label={t.luggage} value={luggage} setValue={setLuggage} icon={<Briefcase />} type="number" min="0" max="20" />
-                      <Input label={t.flightNumber} value={flightNumber} setValue={setFlightNumber} placeholder="SN1234" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <SelectInput label={t.returnTrip} value={returnTrip} setValue={setReturnTrip} options={yesNoOptions} ariaLabel={t.returnTrip} />
-                      <SelectInput label={t.childSeat} value={childSeat} setValue={setChildSeat} options={yesNoOptions} ariaLabel={t.childSeat} />
-                    </div>
-                    <SelectInput label={t.vehicle} value={vehicleChoice} setValue={setVehicleChoice} options={vehicleOptions} ariaLabel={t.vehicle} />
-                    <Input label={t.specialRequest} value={specialRequest} setValue={setSpecialRequest} placeholder={t.specialRequestPlaceholder} />
-                  </div>
-                </details>
-
-                <Button href={whatsappUrl} onClick={handleQuoteSubmit}>
-                  {t.request}
-                </Button>
-
-                <Button href={`tel:${PHONE}`} dark onClick={() => trackConversion("call_click")} hideArrow>
-                  <Phone className="h-4 w-4" aria-hidden="true" />
-                  {t.call}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── STATS ───────────────────────────────────────────────────────── */}
-        <section className="mt-5 rounded-[24px] border border-white/10 bg-[#090909] p-5" aria-label="Key statistics">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-            {t.stats.map(([value, label], i) => {
-              const Icon = STAT_ICONS[i];
-              return (
-                <div key={label} className="rounded-2xl bg-white/[0.03] p-4">
-                  <Icon className="mb-3 h-5 w-5 text-[#d6a85c]" aria-hidden="true" />
-                  <div className="text-2xl font-black">{value}</div>
-                  <div className="text-sm text-white/50">{label}</div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ── WHY + HOW ───────────────────────────────────────────────────── */}
-        <section className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
-            <SectionTitle>{t.whyTitle}</SectionTitle>
-            <p className="mt-3 max-w-2xl text-lg leading-8 text-white/65">{t.whyText}</p>
-            <div className="mt-7 grid gap-4 md:grid-cols-3">
-              {t.why.map(([title, desc], i) => {
-                const Icon = WHY_ICONS[i];
-                return (
-                  <Card key={title}>
-                    <Icon className="mb-4 h-6 w-6 text-[#d6a85c]" aria-hidden="true" />
-                    <h3 className="text-xl font-black">{title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-white/58">{desc}</p>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-
-          <div>
-            <MediaFrame src={images.interior} alt="Premium Tesla interior" height="h-[330px]" />
-            <div className="mt-7">
-              <SectionTitle>{t.howTitle}</SectionTitle>
-              <div className="mt-5 grid gap-4">
-                {t.how.map(([title, desc], i) => (
-                  <Card key={title}>
-                    <div
-                      className="mb-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#d6a85c] text-[#d6a85c] font-bold"
-                      aria-hidden="true"
-                    >
-                      {i + 1}
-                    </div>
-                    <h3 className="text-xl font-black">{title}</h3>
-                    <p className="mt-2 text-white/58">{desc}</p>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── PERFECT FOR ─────────────────────────────────────────────────── */}
-        <section className="mt-12">
-          <SectionTitle>{t.perfect}</SectionTitle>
-          <div className="mt-6 grid gap-4 md:grid-cols-4">
-            {t.perfectItems.map((item, i) => {
-              const Icon = PERFECT_ICONS[i];
-              return (
-                <Card key={item}>
-                  <Icon className="mb-3 h-5 w-5 text-[#d6a85c]" aria-hidden="true" />
-                  <div className="font-bold">{item}</div>
-                </Card>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ── SERVICES ────────────────────────────────────────────────────── */}
-        <section id="services" className="mt-12">
-          <SectionTitle>{t.servicesTitle}</SectionTitle>
-          <p className="mt-3 text-lg font-semibold text-[#d6a85c]">{t.servicesSub}</p>
-          <div className="mt-7 grid gap-5 lg:grid-cols-4">
-            {t.services.map(([title, desc], i) => (
-              <ImageCard
-                key={title}
-                img={images.services[i]}
-                title={title}
-                desc={desc}
-                learnMoreLabel={t.learnMore}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* ── FLEET ───────────────────────────────────────────────────────── */}
-        <section id="fleet" className="mt-12">
-          <SectionTitle>{t.fleetTitle}</SectionTitle>
-          <p className="mt-3 text-lg font-semibold text-[#d6a85c]">{t.fleetSub}</p>
-          <div className="mt-7 grid gap-5 lg:grid-cols-3">
-            {t.fleet.map(([title, desc], i) => (
-              <ImageCard
-                key={title}
-                img={images.fleet[i]}
-                title={title}
-                desc={desc}
-                height="h-64"
-                learnMoreLabel={t.learnMore}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* ── REVIEWS ─────────────────────────────────────────────────────── */}
-        <section id="reviews" className="mt-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-          <Card>
-            <div className="text-sm font-bold uppercase tracking-[0.2em] text-[#d6a85c]">
-              {t.customerTrust}
-            </div>
-            <h2 className="mt-3 text-3xl font-black">{t.customerTrustTitle}</h2>
-            <p className="mt-4 leading-7 text-white/60">{t.customerTrustText}</p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {t.reviewStats.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-white/10 p-4 font-bold text-[#d6a85c]"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          <div>
-            <SectionTitle>{t.reviewsTitle}</SectionTitle>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {t.reviews.map(([name, city, text, date]) => (
-                <Card key={name}>
-                  <div className="mb-2 text-xs font-bold text-[#d6a85c]">
-                    ✓ {t.verifiedCustomer} • {date}
-                  </div>
-                  <div className="mb-3 flex text-[#d6a85c]" aria-label="5 out of 5 stars">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <h3 className="text-xl font-black">{name}</h3>
-                  <div className="text-sm text-white/45">{city}</div>
-                  <p className="mt-3 leading-6 text-white/62">{text}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── CTA ─────────────────────────────────────────────────────────── */}
-        <section className="mt-12 overflow-hidden rounded-[30px] border border-[#6b5431] bg-[#120f0b] p-6 md:p-8">
-          <div className="grid items-center gap-7 lg:grid-cols-[0.8fr_1.2fr]">
-            <MediaFrame src={images.cta} alt="VIP chauffeur service" height="h-[320px]" />
-
-            <div>
-              <SectionTitle>{t.ctaTitle}</SectionTitle>
-              <p className="mt-4 max-w-2xl leading-8 text-white/70">{t.ctaText}</p>
-
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Button href={whatsappUrl} onClick={() => trackConversion("cta_whatsapp_click")}>
-                  {t.whatsapp}
-                </Button>
-                <Button href={`tel:${PHONE}`} dark onClick={() => trackConversion("cta_call_click")}>
-                  {t.call}
-                </Button>
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold text-white/65">
-                {t.paymentMethods.map((p) => (
-                  <span key={p} className="rounded-full border border-white/15 px-3 py-1">
-                    {p}
-                  </span>
-                ))}
-              </div>
-
-              {/* Fixed: each card has its own unique description */}
-              <div className="mt-6 grid gap-4 md:grid-cols-3">
-                {t.ctaCards.map(([title, desc], i) => {
-                  const Icon = CTA_ICONS[i];
-                  return (
-                    <Card key={title}>
-                      <Icon className="mb-3 h-5 w-5 text-[#d6a85c]" aria-hidden="true" />
-                      <h3 className="font-black">{title}</h3>
-                      <p className="mt-2 text-sm text-white/55">{desc}</p>
-                    </Card>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── SEO TEXT ────────────────────────────────────────────────────── */}
-        <section className="mt-12 rounded-[28px] border border-white/10 bg-[#0b0b0b] p-6 md:p-8">
-          <h2 className="text-3xl font-black md:text-4xl">{t.seoTitle}</h2>
-          {t.seoTexts.map((para, i) => (
-            <p key={i} className="mt-4 leading-8 text-white/65">
-              {para}
-            </p>
-          ))}
-        </section>
-
-        {/* ── BUSINESS ────────────────────────────────────────────────────── */}
-        <section className="mt-8 rounded-[24px] border border-white/10 bg-[#0b0b0b] p-5">
-          <div className="text-sm font-bold text-[#d6a85c]">{t.businessTag}</div>
-          <p className="mt-2 text-white/65">{t.businessText}</p>
-        </section>
-
-        {/* ── FAQ ─────────────────────────────────────────────────────────── */}
-        <section id="faq" className="mt-12">
-          <SectionTitle>{t.faqTitle}</SectionTitle>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {t.faq.map(([q, a]) => (
-              <Card key={q}>
-                <h3 className="font-black">{q}</h3>
-                <p className="mt-2 leading-6 text-white/60">{a}</p>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* ── PRIORITY CTA ────────────────────────────────────────────────── */}
-        <section className="mt-12 rounded-[30px] border border-[#6b5431]/70 bg-[radial-gradient(circle_at_top_left,rgba(214,168,92,0.18),transparent_35%),#070707] p-7 shadow-2xl md:p-10">
-          <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-            <div>
-              <div className="mb-2 text-sm font-bold uppercase tracking-[0.25em] text-[#d6a85c]">
-                {t.priorityTag}
-              </div>
-              <h2 className="text-3xl font-black md:text-5xl">{t.priorityTitle}</h2>
-              <p className="mt-4 max-w-2xl leading-8 text-white/65">{t.priorityText}</p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
-              <Button href={whatsappUrl} onClick={() => trackConversion("priority_whatsapp_click")}>
-                {t.request}
-              </Button>
-              <Button href={`tel:${PHONE}`} dark onClick={() => trackConversion("priority_call_click")}>
-                {t.call}
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* ── LEGAL ───────────────────────────────────────────────────────── */}
-        <section className="mt-12 rounded-[28px] border border-white/10 bg-[#0b0b0b] p-6 md:p-8">
-          <SectionTitle>{t.legalTitle}</SectionTitle>
-          <div className="mt-5 grid gap-6 text-sm leading-7 text-white/65 md:grid-cols-2">
-            <div className="space-y-2">
-              <p><strong className="text-white">{t.legalCompany}</strong></p>
-              <p>{t.legalDesc}</p>
-              {t.legalPlaceholder && (
-                <p className="text-amber-400/80">{t.legalPlaceholder}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <p>
-                Email:{" "}
-                <a href={`mailto:${EMAIL}`} className="text-[#d6a85c] hover:underline">
-                  {EMAIL}
-                </a>
-              </p>
-              <p>
-                {lang === "fr" ? "Téléphone" : lang === "nl" ? "Telefoon" : "Phone"}:{" "}
-                <a href={`tel:${PHONE}`} className="text-[#d6a85c] hover:underline">
-                  +32 490 37 39 03
-                </a>
-              </p>
-              <div className="flex flex-wrap gap-3 pt-1">
-                {t.legalLinks.map((link, index) => (
-                  <a
-                    key={link}
-                    href={["/confidentialite", "/conditions-generales", "/cookies"][index]}
-                    className="text-white/50 hover:text-[#d6a85c] underline transition"
-                  >
-                    {link}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <nav aria-label="Pages locales" className="mt-8 rounded-[24px] border border-white/10 bg-[#0b0b0b] p-5">
-          <div className="text-sm font-bold uppercase tracking-[0.2em] text-white/45">
-            {lang === "fr" ? "Zones et services" : lang === "nl" ? "Zones en diensten" : "Areas and services"}
-          </div>
-          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-sm font-bold text-[#d6a85c]">
-            <a href="/taxi-bruxelles">Taxi Bruxelles</a>
-            <a href="/taxi-zaventem">Taxi Zaventem</a>
-            <a href="/chauffeur-prive-bruxelles">Chauffeur privé Bruxelles</a>
-            <a href="/conditions-generales">Conditions générales</a>
-            <a href="/confidentialite">Confidentialité</a>
-          </div>
-        </nav>
-
-        {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-        <footer id="contact" className="mt-12 rounded-[28px] border border-white/10 bg-[#080808] p-8">
-          <div className="grid gap-8 md:grid-cols-4">
-            <div>
-              <div className="text-3xl font-black">BLACKCAB</div>
-              <div className="text-xs font-bold uppercase tracking-[0.3em] text-[#d6a85c]">
-                Shuttle Brussels
-              </div>
-              <p className="mt-4 leading-7 text-white/55">{t.footerTagline}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <a
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="BlackCab Shuttle on Instagram"
-                  className="inline-flex rounded-full border border-white/10 px-4 py-2 text-sm text-white/75 hover:text-[#d6a85c] transition"
-                >
-                  Instagram
-                </a>
-              </div>
-            </div>
-
-            {t.footerCols.map((col) => (
-              <FooterCol key={col.title} title={col.title} items={col.items} />
-            ))}
-          </div>
-
-          <div className="mt-8 border-t border-white/10 pt-5 text-center text-sm text-white/35">
-            {t.copyright}
-          </div>
-        </footer>
+    <section className="hero-section">
+      <Image src="/images/1.jpg" alt="Chauffeur BlackCab Shuttle à Bruxelles" fill priority sizes="100vw" className="hero-image" />
+      <div className="hero-overlay" />
+      <div className="hero-grid page-width">
+        <div className="hero-copy"><p className="eyebrow light"><BadgeCheck />{t.eyebrow}</p><h1>{t.title}</h1><p className="hero-lead">{t.lead}</p><div className="trust-row">{t.trust.map(x => <span key={x}><Check />{x}</span>)}</div><a className="phone-pill" href={`tel:${PHONE_LINK}`}><Phone /><span><small>{t.call}</small>{PHONE_DISPLAY}</span></a></div>
+        <BookingForm lang={lang} t={t} />
       </div>
+    </section>
 
-      {/* ── FLOATING WHATSAPP BUTTON ─────────────────────────────────────── */}
-      <a
-        href={whatsappUrl}
-        aria-label={t.whatsapp}
-        onClick={() => trackConversion("floating_whatsapp_click")}
-        className="fixed bottom-5 right-5 z-[80] hidden h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_20px_60px_rgba(37,211,102,0.45)] transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 md:flex"
-      >
-        <MessageCircle className="h-7 w-7" aria-hidden="true" />
-      </a>
+    <section id="tarifs" className="section page-width"><div className="section-heading"><p className="eyebrow"><Plane />{t.faresEyebrow}</p><h2>{t.faresTitle}</h2><p>{t.faresSub}</p></div><div className="fare-grid">{t.fares.map(([name, price, desc], i) => <article key={name}><span className="route-icon"><Plane /></span><div><h3>{name}</h3><p>{desc}</p></div><strong>{price}</strong></article>)}</div></section>
 
-      <div className="fixed inset-x-0 bottom-0 z-[90] grid grid-cols-2 border-t border-white/10 bg-black/95 p-2 shadow-[0_-20px_50px_rgba(0,0,0,0.55)] backdrop-blur-xl md:hidden">
-        <a
-          href={whatsappUrl}
-          onClick={() => trackConversion("mobile_sticky_whatsapp_click")}
-          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-4 py-3 text-sm font-black text-white"
-        >
-          <MessageCircle className="h-5 w-5" aria-hidden="true" />
-          WhatsApp
-        </a>
-        <a
-          href={`tel:${PHONE}`}
-          onClick={() => trackConversion("mobile_sticky_call_click")}
-          className="ml-2 inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-black text-black"
-        >
-          <Phone className="h-5 w-5" aria-hidden="true" />
-          {t.call}
-        </a>
-      </div>
-    </main>
-  );
+    <section id="vehicules" className="section soft-section"><div className="page-width"><div className="section-heading centered"><p className="eyebrow"><CarFront />{t.fleetEyebrow}</p><h2>{t.fleetTitle}</h2></div><div className="fleet-grid">{t.fleet.map(([name, price, people, desc], i) => <article key={name} className="fleet-card"><div className="fleet-image"><Image src={fleetImages[i]} alt={`${name} BlackCab Shuttle`} fill sizes="(max-width: 850px) 100vw, 33vw" className="object-cover" /></div><div className="fleet-content"><div><h3>{name}</h3><strong>{price}</strong></div><p className="people"><Users />{people}</p><p>{desc}</p><a href="#reservation" onClick={() => setTimeout(() => window.dispatchEvent(new Event('focus')), 0)}>{t.choose}<ArrowRight /></a></div></article>)}</div></div></section>
+
+    <section id="avantages" className="benefits"><div className="page-width benefits-grid">{t.benefits.map(([title, desc], i) => { const Icon = benefitIcons[i]; return <article key={title}><span><Icon /></span><div><h3>{title}</h3><p>{desc}</p></div></article>; })}</div></section>
+
+    <section className="section page-width"><div className="section-heading centered"><p className="eyebrow"><CalendarDays />Simple et rapide</p><h2>{t.stepsTitle}</h2></div><div className="steps-grid">{t.steps.map(([title, desc], i) => <article key={title}><span>{i + 1}</span><h3>{title}</h3><p>{desc}</p></article>)}</div></section>
+
+    <section className="rating page-width"><div className="stars">{[1,2,3,4,5].map(x => <Star key={x} />)}</div><div><h2>{t.ratingTitle}</h2><p>{t.ratingText}</p></div><strong>4,7<small>/5</small></strong></section>
+
+    <section id="faq" className="section page-width"><div className="section-heading centered"><p className="eyebrow"><BadgeCheck />FAQ</p><h2>{t.faqTitle}</h2></div><div className="faq-list">{t.faq.map(([q, a]) => <details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></section>
+
+    <section className="coverage"><div className="page-width coverage-grid"><div><p className="eyebrow light"><BriefcaseBusiness />Bruxelles</p><h2>{t.coverageTitle}</h2><p>{t.coverageText}</p></div><div className="communes">{communes.map(c => <span key={c}>{c}</span>)}</div></div></section>
+
+    <section className="final-cta page-width"><div><h2>{t.finalTitle}</h2><p>{t.finalText}</p></div><div><a className="secondary-button" href={`tel:${PHONE_LINK}`}><Phone />{PHONE_DISPLAY}</a><a className="primary-button" href="#reservation"><CalendarDays />{t.book}</a></div></section>
+
+    <footer><div className="page-width footer-grid"><div><div className="brand footer-brand"><span className="brand-mark"><CarFront /></span><span><strong>BLACKCAB</strong><small>Shuttle Brussels</small></span></div><p>Taxi, navette aéroport et chauffeur privé à Bruxelles.</p></div><div className="footer-links"><a href="/taxi-bruxelles">Taxi Bruxelles</a><a href="/taxi-zaventem">Taxi Zaventem</a><a href="/chauffeur-prive-bruxelles">Chauffeur privé</a></div><div className="footer-contact"><a href={`tel:${PHONE_LINK}`}><Phone />{PHONE_DISPLAY}</a><a href={`mailto:${CONTACT_EMAIL}`}><Mail />{CONTACT_EMAIL}</a><div><a href="/confidentialite">Confidentialité</a> · <a href="/conditions-generales">Conditions</a> · <a href="/cookies">Cookies</a></div></div></div></footer>
+
+    <div className="mobile-actions"><a href={`tel:${PHONE_LINK}`}><Phone />{t.call}</a><a href="#reservation"><CalendarDays />{t.book}</a></div>
+  </main>;
 }
 
-export default function Page() {
-  return <HomePage initialLang="fr" />;
-}
+export default function Page() { return <HomePage initialLang="fr" />; }

@@ -257,7 +257,7 @@ export function HomePage({ initialLang = "fr" }) {
     </header>
 
     <section className="hero-section">
-      <Image src="/images/1.jpg" alt={t.heroAlt} fill priority sizes="100vw" className="hero-image" />
+      <Image src="/images/2.jpg" alt={t.heroAlt} fill priority sizes="100vw" className="hero-image" />
       <div className="hero-overlay" />
       <div className="hero-grid page-width">
         <div className="hero-copy"><p className="eyebrow light"><BadgeCheck />{t.eyebrow}</p><h1>{t.title}</h1><p className="hero-lead">{t.lead}</p><div className="trust-row">{t.trust.map(x => <span key={x}><Check />{x}</span>)}</div><a className="phone-pill" href={`tel:${PHONE_LINK}`}><Phone /><span><small>{t.call}</small>{PHONE_DISPLAY}</span></a></div>

@@ -168,9 +168,8 @@ function LanguageLinks({ lang, label }) {
   </div>;
 }
 
-function BookingForm({ lang, t }) {
+function BookingForm({ lang, t, vehicle, setVehicle }) {
   const [state, setState] = useState("idle");
-  const [vehicle, setVehicle] = useState(t.vehicles[0]);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -216,6 +215,7 @@ function BookingForm({ lang, t }) {
 export function HomePage({ initialLang = "fr" }) {
   const lang = initialLang;
   const t = copy[lang];
+  const [vehicle, setVehicle] = useState(t.vehicles[0]);
   const communes = communesByLang[lang];
   const [menu, setMenu] = useState(false);
   useEffect(() => { document.documentElement.lang = lang === "en" ? "en-BE" : `${lang}-BE`; }, [lang]);
@@ -261,13 +261,13 @@ export function HomePage({ initialLang = "fr" }) {
       <div className="hero-overlay" />
       <div className="hero-grid page-width">
         <div className="hero-copy"><p className="eyebrow light"><BadgeCheck />{t.eyebrow}</p><h1>{t.title}</h1><p className="hero-lead">{t.lead}</p><div className="trust-row">{t.trust.map(x => <span key={x}><Check />{x}</span>)}</div><a className="phone-pill" href={`tel:${PHONE_LINK}`}><Phone /><span><small>{t.call}</small>{PHONE_DISPLAY}</span></a></div>
-        <BookingForm lang={lang} t={t} />
+        <BookingForm lang={lang} t={t} vehicle={vehicle} setVehicle={setVehicle} />
       </div>
     </section>
 
     <section id="tarifs" className="section page-width"><div className="section-heading"><p className="eyebrow"><Plane />{t.faresEyebrow}</p><h2>{t.faresTitle}</h2><p>{t.faresSub}</p></div><div className="fare-grid">{t.fares.map(([name, price, desc], i) => <article key={name}><span className="route-icon"><Plane /></span><div><h3>{name}</h3><p>{desc}</p></div><strong>{price}</strong></article>)}</div></section>
 
-    <section id="vehicules" className="section soft-section"><div className="page-width"><div className="section-heading centered"><p className="eyebrow"><CarFront />{t.fleetEyebrow}</p><h2>{t.fleetTitle}</h2></div><div className="fleet-grid">{t.fleet.map(([name, price, people, desc], i) => <article key={name} className="fleet-card"><div className="fleet-image"><Image src={fleetImages[i]} alt={`${name} BlackCab Shuttle`} fill sizes="(max-width: 850px) 100vw, 33vw" className="object-cover" /></div><div className="fleet-content"><div><h3>{name}</h3><strong>{price}</strong></div><p className="people"><Users />{people}</p><p>{desc}</p><a href="#reservation" onClick={() => setTimeout(() => window.dispatchEvent(new Event('focus')), 0)}>{t.choose}<ArrowRight /></a></div></article>)}</div></div></section>
+    <section id="vehicules" className="section soft-section"><div className="page-width"><div className="section-heading centered"><p className="eyebrow"><CarFront />{t.fleetEyebrow}</p><h2>{t.fleetTitle}</h2></div><div className="fleet-grid">{t.fleet.map(([name, price, people, desc], i) => <article key={name} className="fleet-card"><div className="fleet-image"><Image src={fleetImages[i]} alt={`${name} BlackCab Shuttle`} fill sizes="(max-width: 850px) 100vw, 33vw" className="object-cover" /></div><div className="fleet-content"><div><h3>{name}</h3><strong>{price}</strong></div><p className="people"><Users />{people}</p><p>{desc}</p><a href="#reservation" onClick={() => setVehicle(t.vehicles[i])}>{t.choose}<ArrowRight /></a></div></article>)}</div></div></section>
 
     <section id="avantages" className="benefits"><div className="page-width benefits-grid">{t.benefits.map(([title, desc], i) => { const Icon = benefitIcons[i]; return <article key={title}><span><Icon /></span><div><h3>{title}</h3><p>{desc}</p></div></article>; })}</div></section>
 

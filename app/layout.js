@@ -46,6 +46,9 @@ export const metadata = {
     canonical: "/",
     languages: { "fr-BE": "/", "nl-BE": "/nl", "en-GB": "/en", "x-default": "/" },
   },
+  verification: {
+    google: "vyXAG6SprDANQyYXqJC3BzQKSXW85Q_dN3zOiScHtD0",
+  },
   robots: { index: true, follow: true },
 };
 
